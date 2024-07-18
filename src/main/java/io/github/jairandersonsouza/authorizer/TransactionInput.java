@@ -11,7 +11,7 @@ public class TransactionInput {
     @NotEmpty
     private String account;
     //TODO
-    //validated this bean
+    //validated this bean validation
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 10, fraction = 2)
     private BigDecimal totalAmount;
