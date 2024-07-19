@@ -1,4 +1,4 @@
-package io.github.jairandersonsouza.authorizer;
+package io.github.jairandersonsouza.authorizer.adapters;
 
 public class PaymentAdapter {
 

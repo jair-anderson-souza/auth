@@ -1,18 +1,19 @@
-package io.github.jairandersonsouza.authorizer;
+package io.github.jairandersonsouza.authorizer.entities;
 
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
-@Entity
-@Table(name = "t_balance")
+@Embeddable
 public class Balance {
 
     //TODO
     //id - UUID - gerar na aplicação, é mais rápido
-    @Id
-    private String id;
+//    @Id
+//    private String id;
+
+//    @Column(name = "account_id")
+//    private String accountId;
 
     //add @Column com valores limites
     //validar, trocar por Money
@@ -22,13 +23,21 @@ public class Balance {
     private MccEnum mcc;
 
 
-    public String getId() {
-        return id;
-    }
+//    public String getId() {
+//        return id;
+//    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+
+//    public String getAccountId() {
+//        return accountId;
+//    }
+//
+//    public void setAccountId(String accountId) {
+//        this.accountId = accountId;
+//    }
 
     public BigDecimal getBalance() {
         return balance;
@@ -46,16 +55,10 @@ public class Balance {
         this.mcc = mcc;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Balance balance = (Balance) o;
-        return Objects.equals(id, balance.id);
+
+    public void debitAmount(BigDecimal amountTransaction) {
+        this.balance = this.balance.subtract(amountTransaction);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+
 }

@@ -1,5 +1,7 @@
-package io.github.jairandersonsouza.authorizer;
+package io.github.jairandersonsouza.authorizer.processors;
 
+import io.github.jairandersonsouza.authorizer.entities.MccEnum;
+import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

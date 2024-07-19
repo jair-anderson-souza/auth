@@ -1,5 +1,8 @@
-package io.github.jairandersonsouza.authorizer;
+package io.github.jairandersonsouza.authorizer.services;
 
+import io.github.jairandersonsouza.authorizer.entities.Account;
+import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
+import io.github.jairandersonsouza.authorizer.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,7 @@ public class AccountService {
     public Account getAccount(String id, BigDecimal balance) {
         final var account = this.accountRepository.findById(id);
         if (account.isEmpty()) {
-            //wrap up exception
-            throw new RuntimeException("Error account doesnt exist");
+            throw new AccountNotExistsException("Error - account doesnt exist");
         }
         return account.get();
     }

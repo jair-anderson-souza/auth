@@ -1,13 +1,10 @@
-package io.github.jairandersonsouza.authorizer;
+package io.github.jairandersonsouza.authorizer.entities;
 
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "t_account")
@@ -16,15 +13,16 @@ public class Account implements Serializable {
     //TODO
     //id - UUID - gerar na aplicação, é mais rápido
     @Id
+    @Column(name = "id")
     private String id;
 
 
     @Column(name = "company_name")
     private String companyName;
 
-    //test outras collections
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
-    private Set<Balance> balance;
+    @ElementCollection
+    @CollectionTable(name = "t_account_balance", joinColumns = @JoinColumn(name = "account_id"), foreignKey = @ForeignKey(name = "account_balance_pkey"))
+    private List<Balance> balances;
 
     public String getId() {
         return id;
@@ -42,18 +40,19 @@ public class Account implements Serializable {
         this.companyName = companyName;
     }
 
-    public Set<Balance> getBalance() {
-        return balance;
+    public List<Balance> getBalances() {
+        return balances;
     }
 
-    public void setBalance(Set<Balance> balance) {
-        this.balance = balance;
+    public void setBalances(List<Balance> balances) {
+        this.balances = balances;
     }
 
-    public void addBalance(Balance bal) {
-        if(this.balance == null){
-            this.balance = new HashSet<>();
+    public void debit(BigDecimal amountTransaction, MccEnum mcc) {
+        for (Balance balance : balances) {
+            if (balance.getMcc().equals(mcc)) {
+                balance.debitAmount(amountTransaction);
+            }
         }
-        this.balance.add(bal);
     }
 }

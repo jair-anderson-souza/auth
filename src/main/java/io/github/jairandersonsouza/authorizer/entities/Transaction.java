@@ -1,5 +1,6 @@
-package io.github.jairandersonsouza.authorizer;
+package io.github.jairandersonsouza.authorizer.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,6 +18,7 @@ public class Transaction implements Serializable {
     @Id
     private String id;
 
+    @Column(name = "account_id")
     private String accountId;
 
     //add @Column com valores limites

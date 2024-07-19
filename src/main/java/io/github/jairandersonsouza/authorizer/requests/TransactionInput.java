@@ -1,9 +1,8 @@
-package io.github.jairandersonsouza.authorizer;
+package io.github.jairandersonsouza.authorizer.requests;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
-import org.springframework.format.number.money.MonetaryAmountFormatter;
 
 import java.math.BigDecimal;
 
