@@ -24,7 +24,9 @@ public class TransactionService {
 
         final var paymentProcessor = this.paymentProcessorFactory.getProcessor(transactionInput);
 
+        //TODO
         //descobrindo o tipo de to saldo
+        //remove
         MccEnum transactionType = null;
         if (transactionInput.getMcc().equals("5411") || transactionInput.getMcc().equals("5412")) {
             transactionType = MccEnum.FOOD;
