@@ -1,21 +1,15 @@
 version: "3.5"
 
 services:
-#  api:
-##    image: eclipse-temurin:17.0.11_9-jre-alpine
-#    platform: linux/x86_64
-#    container_name: api
-#    build: .
-#    environment:
-#      - DB_HOSTNAME=db
-#
-#    # Não é necessário expor qualquer porta além da porta do load balancer,
-#    # mas é comum as pessoas o fazerem para testarem suas APIs e conectarem
-#    # ao banco de dados na fase de desenvolvimento.
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - db
+  api:
+    platform: linux/x86_64
+    build: .
+    environment:
+      - DB_HOSTNAME=db
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
   db:
     platform: linux/x86_64
     image: postgres:latest
@@ -23,7 +17,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=root
-      - POSTGRES_DB=authorize_db
+      - POSTGRES_DB=authorizer_db
     ports:
       - "5432:5432"
     volumes:
