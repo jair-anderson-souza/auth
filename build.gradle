@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'io.github.jairandersonsouza'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 
 java {
 	toolchain {
@@ -25,8 +25,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//runtimeOnly 'org.postgresql:postgresql'
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	//TODO comentar H2
+	//runtimeOnly 'com.h2database:h2'
     implementation group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '2.3.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -35,6 +36,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jar{
+	enabled = true
+}
+
 gatling {
     // WARNING: options below only work when logback config file isn't provided
     logLevel = 'INFO' // logback root level

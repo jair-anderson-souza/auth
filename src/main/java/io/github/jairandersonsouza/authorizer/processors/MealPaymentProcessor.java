@@ -28,7 +28,6 @@ public class MealPaymentProcessor implements PaymentProcessor {
         final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
         account.debit(transactionInput.getTotalAmount(), getMcc());
         this.accountService.save(account);
-        Transaction t = new Transaction();
         var tran = new Transaction();
         tran.setId(UUID.randomUUID().toString());
         tran.setAccountId(transactionInput.getAccount());
