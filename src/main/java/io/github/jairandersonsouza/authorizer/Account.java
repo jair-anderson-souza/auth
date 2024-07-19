@@ -19,6 +19,7 @@ public class Account implements Serializable {
     private String id;
 
 
+    @Column(name = "company_name")
     private String companyName;
 
     //test outras collections

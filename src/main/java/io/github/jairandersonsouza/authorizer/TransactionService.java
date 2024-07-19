@@ -4,6 +4,7 @@ package io.github.jairandersonsouza.authorizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -15,8 +16,13 @@ public class TransactionService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private PaymentProcessorFactory paymentProcessorFactory;
+
     public void transact(TransactionInput transactionInput) {
         final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
+
+        final var paymentProcessor = this.paymentProcessorFactory.getProcessor(transactionInput);
 
         //descobrindo o tipo de to saldo
         MccEnum transactionType = null;
