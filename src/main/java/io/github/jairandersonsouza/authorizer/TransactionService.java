@@ -3,8 +3,6 @@ package io.github.jairandersonsouza.authorizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -20,6 +18,8 @@ public class TransactionService {
     private PaymentProcessorFactory paymentProcessorFactory;
 
     public void transact(TransactionInput transactionInput) {
+        //TODO
+        //ao invés de pegar o account, posso pegar logo o balance
         final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
 
         final var paymentProcessor = this.paymentProcessorFactory.getProcessor(transactionInput);
