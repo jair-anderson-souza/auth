@@ -8,18 +8,18 @@ import org.springframework.format.number.money.MonetaryAmountFormatter;
 import java.math.BigDecimal;
 
 public class TransactionInput {
-//    @NotEmpty
+    @NotEmpty
     private String account;
     //TODO
     //validated this bean validation
-//    @DecimalMin(value = "0.0", inclusive = false)
-//    @Digits(integer = 10, fraction = 2)
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal totalAmount;
 
-//    @NotEmpty
+    @NotEmpty
     private String mcc;
 
-//    @NotEmpty
+    @NotEmpty
     private String merchant;
 
 

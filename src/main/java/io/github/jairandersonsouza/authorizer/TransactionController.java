@@ -20,7 +20,7 @@ public class TransactionController {
     //create exception Handler
     @PostMapping
     public void transaction(@RequestBody @Valid TransactionInput transactionInput) {
-        System.out.println(transactionInput);
+        this.transactionService.transact(transactionInput);
     }
 
 }
