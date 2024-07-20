@@ -1,9 +1,11 @@
 package io.github.jairandersonsouza.authorizer.controllers;
 
+import io.github.jairandersonsouza.authorizer.interceptors.ResponseBuilder;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,12 +19,17 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
     //TODO
     //Change return
     //create exception Handler
-    @PostMapping
-    public void transaction(@RequestBody @Valid TransactionInput transactionInput) {
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseBuilder transaction(@RequestBody @Valid TransactionInput transactionInput) {
         this.transactionService.transact(transactionInput);
+        return ResponseBuilder.builder().code("00").build();
     }
 
 }

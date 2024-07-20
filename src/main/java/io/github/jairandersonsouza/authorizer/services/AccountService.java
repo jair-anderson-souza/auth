@@ -20,7 +20,7 @@ public class AccountService {
     public Account getAccount(String id, BigDecimal balance) {
         final var account = this.accountRepository.findById(id);
         if (account.isEmpty()) {
-            throw new AccountNotExistsException("Error - account doesnt exist");
+            throw new AccountNotExistsException();
         }
         return account.get();
     }
