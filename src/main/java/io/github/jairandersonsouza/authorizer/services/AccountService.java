@@ -17,7 +17,7 @@ public class AccountService {
 
 
     @Transactional
-    public Account getAccount(String id, BigDecimal balance) {
+    public Account getAccount(String id) {
         final var account = this.accountRepository.findById(id);
         if (account.isEmpty()) {
             throw new AccountNotExistsException();

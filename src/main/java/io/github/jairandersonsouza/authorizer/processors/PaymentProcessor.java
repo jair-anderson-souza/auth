@@ -1,8 +1,10 @@
 package io.github.jairandersonsouza.authorizer.processors;
 
+import io.github.jairandersonsouza.authorizer.entities.Account;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
+import io.github.jairandersonsouza.authorizer.repository.TrancasaoRe;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountService;
@@ -20,12 +22,14 @@ public abstract class PaymentProcessor {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private TrancasaoRe trancasaoRe;
+
     //TODO
     //validar transactional
     @Transactional(propagation = Propagation.REQUIRED)
-    public void startTransaction(TransactionInput transactionInput) {
+    public void startTransaction(TransactionInput transactionInput, Account account) {
         try {
-            final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
             account.debit(transactionInput.getTotalAmount(), getMcc());
             this.accountService.save(account);
             var tran = new Transaction();
@@ -34,7 +38,8 @@ public abstract class PaymentProcessor {
             tran.setAmount(transactionInput.getTotalAmount());
             tran.setMerchant(transactionInput.getMerchant());
             tran.setMcc(transactionInput.getMcc());
-            this.transactionRepository.save(tran);
+//            this.transactionRepository.save(tran);
+            trancasaoRe.insert(tran);
         } catch (TransactionRejectedException e) {
             throw e;
         }

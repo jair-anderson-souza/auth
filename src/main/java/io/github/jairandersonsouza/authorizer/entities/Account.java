@@ -51,7 +51,6 @@ public class Account implements Serializable {
 
 
     public void debit(BigDecimal amountTransaction, MccEnum mcc) {
-
         for (Balance balance : balances) {
             if (balance.getMcc().equals(mcc)) {
                 balance.debitAmount(amountTransaction);

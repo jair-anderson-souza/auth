@@ -25,10 +25,9 @@ public class TransactionService {
     private PaymentFactory paymentFactory;
 
     public void transact(TransactionInput transactionInput) {
-
-        final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
+        final var account = this.accountService.getAccount(transactionInput.getAccount());
         final var paymentProcessor = this.paymentFactory.getProcessor(transactionInput, account);
-        paymentProcessor.startTransaction(transactionInput);
+        paymentProcessor.startTransaction(transactionInput, account);
     }
 
 //    public void valid(TransactionInput transactionInput) {
