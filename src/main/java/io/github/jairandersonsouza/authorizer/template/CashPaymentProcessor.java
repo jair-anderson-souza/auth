@@ -28,7 +28,6 @@ public class CashPaymentProcessor implements PaymentProcessor {
     public void startTransaction(TransactionInput transactionInput) {
         try {
 
-
             final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
             account.debit(transactionInput.getTotalAmount(), getMcc());
 
