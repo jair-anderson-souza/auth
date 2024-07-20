@@ -29,7 +29,9 @@ public class AccountBalance implements Serializable {
     @Column(name = "company_name")
     private String companyName;
 
-    public AccountBalance(){}
+    public AccountBalance() {
+    }
+
     public AccountBalance(String id, BigDecimal balance, MccEnum mcc, String companyName) {
         this.id = id;
         this.balance = balance;
@@ -46,25 +48,16 @@ public class AccountBalance implements Serializable {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
 
     public MccEnum getMcc() {
         return mcc;
     }
 
-    public void setMcc(MccEnum mcc) {
-        this.mcc = mcc;
-    }
 
     public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
 
     public void debit(BigDecimal amountTransaction) {
         //TODO
