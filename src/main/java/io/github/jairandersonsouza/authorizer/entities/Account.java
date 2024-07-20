@@ -60,20 +60,6 @@ public class Account implements Serializable {
     }
 
 
-//    public boolean validAmount(TransactionInput transactionInput) {
-//        return validMcc(transactionInput);
-//    }
-
-    private boolean validMcc(TransactionInput transactionInput) {
-        for (Balance balance : this.balances) {
-            if (balance.getMcc().name().equals(transactionInput.getMcc())) {
-                return amountGteThan(transactionInput, MccEnum.MEAL);
-            }
-
-        }
-        return false;
-    }
-
     public boolean amountGteThan(TransactionInput transactionInput, MccEnum mccEnum) {
         for (Balance balance : this.balances) {
             if (balance.getMcc().equals(mccEnum)) {

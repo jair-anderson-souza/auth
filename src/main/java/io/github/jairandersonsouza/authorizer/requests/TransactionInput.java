@@ -7,11 +7,11 @@ import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 public class TransactionInput {
+
     @NotEmpty
     private String account;
-    //TODO
-    //validated this bean validation
-    @DecimalMin(value = "0.0", inclusive = false)
+
+    @DecimalMin(value = "0.00", inclusive = false)
     @Digits(integer = 10, fraction = 2)
     private BigDecimal totalAmount;
 
@@ -55,15 +55,4 @@ public class TransactionInput {
     }
 
 
-    //TODO
-    //remove
-    @Override
-    public String toString() {
-        return "TransactionInput{" +
-                "account='" + account + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", mcc='" + mcc + '\'' +
-                ", merchant='" + merchant + '\'' +
-                '}';
-    }
 }

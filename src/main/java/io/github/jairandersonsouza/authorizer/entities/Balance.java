@@ -1,43 +1,22 @@
 package io.github.jairandersonsouza.authorizer.entities;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import java.math.BigDecimal;
 
 @Embeddable
 public class Balance {
 
-    //TODO
-    //id - UUID - gerar na aplicação, é mais rápido
-//    @Id
-//    private String id;
-
-//    @Column(name = "account_id")
-//    private String accountId;
-
-    //add @Column com valores limites
-    //validar, trocar por Money
+    @Column(name = "balance", columnDefinition = "NUMERIC(10,2)")
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     private MccEnum mcc;
 
-
-//    public String getId() {
-//        return id;
-//    }
-
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-
-//    public String getAccountId() {
-//        return accountId;
-//    }
-//
-//    public void setAccountId(String accountId) {
-//        this.accountId = accountId;
-//    }
 
     public BigDecimal getBalance() {
         return balance;
