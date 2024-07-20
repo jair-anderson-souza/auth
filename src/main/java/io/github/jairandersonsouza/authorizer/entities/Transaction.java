@@ -1,5 +1,6 @@
 package io.github.jairandersonsouza.authorizer.entities;
 
+import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,11 +9,12 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Entity
 @Table(name = "t_transaction")
-public class Transaction implements Serializable {
+public final class Transaction implements Serializable {
 
     //TODO
     //id - UUID - gerar na aplicação, é mais rápido
@@ -40,14 +42,13 @@ public class Transaction implements Serializable {
     private Transaction() {
     }
 
-    public Transaction(String id, String accountId, BigDecimal amount, String merchant, String mcc) {
+    private Transaction(String id, String accountId, BigDecimal amount, String merchant, String mcc) {
         this.id = id;
         this.accountId = accountId;
         this.amount = amount;
         this.merchant = merchant;
         this.mcc = mcc;
     }
-
 
     public String getAccountId() {
         return accountId;
@@ -63,6 +64,10 @@ public class Transaction implements Serializable {
 
     public String getMcc() {
         return mcc;
+    }
+
+    public static Transaction create(TransactionInput transactionInput) {
+        return new Transaction(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant(), transactionInput.getMcc());
     }
 
     @Override

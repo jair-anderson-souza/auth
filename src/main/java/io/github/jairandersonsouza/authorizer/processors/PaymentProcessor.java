@@ -33,17 +33,12 @@ public abstract class PaymentProcessor {
         try {
             account.debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(account);
-            var tran = buildTransaction(transactionInput);
+            var tran = Transaction.create(transactionInput);
             this.transactionRepository.save(tran);
         } catch (TransactionRejectedException e) {
             throw e;
         }
 
-    }
-
-    public Transaction buildTransaction(TransactionInput transactionInput) {
-        var tran = new Transaction(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant(), transactionInput.getMcc());
-        return tran;
     }
 
     public abstract MccEnum getMcc();
