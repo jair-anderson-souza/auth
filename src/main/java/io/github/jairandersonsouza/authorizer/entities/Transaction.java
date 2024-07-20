@@ -71,4 +71,5 @@ public class Transaction implements Serializable {
     public void setMcc(String mcc) {
         this.mcc = mcc;
     }
+
 }

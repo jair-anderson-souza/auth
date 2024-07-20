@@ -7,10 +7,10 @@ import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public abstract class PaymentProcessor {
 
@@ -22,7 +22,7 @@ public abstract class PaymentProcessor {
 
     //TODO
     //validar transactional
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void startTransaction(TransactionInput transactionInput) {
         try {
             final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
