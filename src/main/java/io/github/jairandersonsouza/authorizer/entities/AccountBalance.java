@@ -29,14 +29,18 @@ public class AccountBalance implements Serializable {
     @Column(name = "company_name")
     private String companyName;
 
+    public AccountBalance(){}
+    public AccountBalance(String id, BigDecimal balance, MccEnum mcc, String companyName) {
+        this.id = id;
+        this.balance = balance;
+        this.mcc = mcc;
+        this.companyName = companyName;
+    }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public BigDecimal getBalance() {
         return balance;
@@ -54,11 +58,6 @@ public class AccountBalance implements Serializable {
         this.mcc = mcc;
     }
 
-
-    public boolean balanceIsValid(BigDecimal amountTransaction) {
-        return this.balance.compareTo(amountTransaction) >= 0;
-    }
-
     public String getCompanyName() {
         return companyName;
     }
@@ -67,25 +66,39 @@ public class AccountBalance implements Serializable {
         this.companyName = companyName;
     }
 
-
-    public void debit(BigDecimal amountTransaction, MccEnum mcc) {
-//        if (this.getMcc().equals(mcc)) {
-        this.debitAmount(amountTransaction);
-
-//        }
-    }
-
-    public void debitAmount(BigDecimal amountTransaction) {
-//        if (balanceIsValid(amountTransaction)) {
+    public void debit(BigDecimal amountTransaction) {
+        //TODO
+        //retornar outra instância de AccountBalance
         this.balance = this.balance.subtract(amountTransaction);
-//        }
 
     }
-
 
     public boolean amountGteThan(TransactionInput transactionInput) {
-        return this.getBalance().compareTo(transactionInput.getTotalAmount()) >= 0;
+        return this.balance.compareTo(transactionInput.getTotalAmount()) >= 0;
 
+    }
+
+    public AccountBalance id(String idAccount) {
+        this.id = idAccount;
+        return this;
+    }
+
+    public AccountBalance mcc(MccEnum mcc) {
+        this.mcc = mcc;
+        return this;
+    }
+
+    public AccountBalance balance(BigDecimal balance) {
+        this.balance = balance;
+        return this;
+    }
+
+    public static AccountBalance builder() {
+        return new AccountBalance();
+    }
+
+    public AccountBalance build() {
+        return this;
     }
 
     @Override
@@ -100,4 +113,6 @@ public class AccountBalance implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+
 }

@@ -5,6 +5,7 @@ import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountBalanceService;
+import io.github.jairandersonsouza.authorizer.util.AccountBalanceUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,23 +37,22 @@ class MealPaymentProcessorTest {
     private String idTransaction;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         this.idAccount = UUID.fromString("4507ccc6-47c0-4723-b654-a105c1ba9e52").toString();
         this.idTransaction = UUID.fromString("b152ae80-2897-4e7d-af1b-f6f985598007").toString();
 
     }
+
     //TODO
     @Test
     void testProcessMealPayment() {
-        AccountBalance accountBalanceRequest = new AccountBalance();
-        accountBalanceRequest.setId(idAccount);
-        accountBalanceRequest.setMcc(MEAL);
-        accountBalanceRequest.setBalance(new BigDecimal(500));
+        AccountBalance accountBalanceRequest = AccountBalanceUtil.get();
 
-        AccountBalance accountBalanceResponse = new AccountBalance();
-        accountBalanceResponse.setId(idAccount);
-        accountBalanceResponse.setMcc(MEAL);
-        accountBalanceResponse.setBalance(new BigDecimal(400));
+        AccountBalance accountBalanceResponse = AccountBalance.builder()
+                .id(idAccount)
+                .mcc(MEAL)
+                .balance(new BigDecimal(400))
+                .build();
 
         var transactionInput = new TransactionInput();
         transactionInput.setAccount("1123");

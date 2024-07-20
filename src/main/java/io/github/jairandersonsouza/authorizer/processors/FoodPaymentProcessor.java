@@ -1,7 +1,9 @@
 package io.github.jairandersonsouza.authorizer.processors;
 
+import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
+import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,12 @@ public class FoodPaymentProcessor extends PaymentProcessor {
     @Autowired
     private TransactionRepository transactionRepository;
 
-//    @Transactional
+    @Override
+    public void startTransaction(TransactionInput transactionInput, AccountBalance account) {
+        super.startTransaction(transactionInput, account);
+    }
+
+    //    @Transactional
 //    @Override
 //    public void startTransaction(TransactionInput transactionInput) {
 //        try {

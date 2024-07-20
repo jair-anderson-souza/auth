@@ -30,7 +30,7 @@ public abstract class PaymentProcessor {
     @Transactional(propagation = Propagation.REQUIRED)
     public void startTransaction(TransactionInput transactionInput, AccountBalance account) {
         try {
-            account.debit(transactionInput.getTotalAmount(), getMcc());
+            account.debit(transactionInput.getTotalAmount());
             this.accountBalanceService.save(account);
             var tran = buildTransaction(transactionInput);
             this.transactionRepository.save(tran);
@@ -40,7 +40,7 @@ public abstract class PaymentProcessor {
 
     }
 
-    private Transaction buildTransaction(TransactionInput transactionInput) {
+    public Transaction buildTransaction(TransactionInput transactionInput) {
         var tran = new Transaction();
         tran.setId(UUID.randomUUID().toString());
         tran.setAccountId(transactionInput.getAccount());

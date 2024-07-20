@@ -34,9 +34,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetMeal() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(MEAL);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(MEAL)
+                .balance(new BigDecimal(500))
+                .build();
 
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -50,9 +51,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetAlsoMeal() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(MEAL);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(MEAL)
+                .balance(new BigDecimal(500))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5812");
@@ -65,10 +67,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheAmountIsLowerForMeal() {
-
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(MEAL);
-        balance.setBalance(new BigDecimal(50));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(MEAL)
+                .balance(new BigDecimal(50))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5811");
@@ -81,9 +83,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheMccIsInvalid() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(MEAL);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(MEAL)
+                .balance(new BigDecimal(500))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5800");
@@ -96,9 +99,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetFood() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(FOOD);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(FOOD)
+                .balance(new BigDecimal(500))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5412");
@@ -111,9 +115,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetAlsoFood() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(FOOD);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(FOOD)
+                .balance(new BigDecimal(500))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5411");
@@ -125,9 +130,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheAmountIsLowerForFood() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(MEAL);
-        balance.setBalance(new BigDecimal(50));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(MEAL)
+                .balance(new BigDecimal(50))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5412");
@@ -140,9 +146,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheAmountIsLowerFor() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(MEAL);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(MEAL)
+                .balance(new BigDecimal(500))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("3454");
@@ -154,9 +161,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCash() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(CASH);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(CASH)
+                .balance(new BigDecimal(500))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("2234");
@@ -168,9 +176,10 @@ class PaymentFactoryTest {
 
     @Test
     void testGetAlsoCash() {
-        AccountBalance balance = new AccountBalance();
-        balance.setMcc(CASH);
-        balance.setBalance(new BigDecimal(500));
+        AccountBalance balance = AccountBalance.builder()
+                .mcc(CASH)
+                .balance(new BigDecimal(500))
+                .build();
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("3454");
