@@ -36,7 +36,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetMeal() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), MEAL, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
 
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -50,7 +50,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetAlsoMeal() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), MEAL, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5812");
@@ -63,7 +63,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheAmountIsLowerForMeal() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(50), MEAL, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(50), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5811");
@@ -76,7 +76,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheMccIsInvalid() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), MEAL, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5800");
@@ -89,7 +89,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetFood() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), FOOD, null);
+        AccountBalance balance = AccountBalance.create(null, null,new BigDecimal(500), FOOD, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5412");
@@ -102,7 +102,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetAlsoFood() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), FOOD, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), FOOD, null);
 
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -115,7 +115,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheAmountIsLowerForFood() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(50), MEAL, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(50), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5412");
@@ -128,7 +128,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCashBecauseTheAmountIsLowerFor() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), MEAL, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("3454");
@@ -140,7 +140,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetCash() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), CASH, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), CASH, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("2234");
@@ -152,7 +152,7 @@ class PaymentFactoryTest {
 
     @Test
     void testGetAlsoCash() {
-        AccountBalance balance = AccountBalance.create(null, new BigDecimal(500), CASH, null);
+        AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), CASH, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("3454");

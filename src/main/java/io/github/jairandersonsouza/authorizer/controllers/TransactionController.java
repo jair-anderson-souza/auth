@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class TransactionController {
 
+    //TODO
+    //remover
     private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
     @Autowired
     private TransactionService transactionService;

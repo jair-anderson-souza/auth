@@ -2,6 +2,7 @@ package io.github.jairandersonsouza.authorizer.interceptors;
 
 
 public class ResponseBuilder {
+
     private String code;
 
 

@@ -33,11 +33,13 @@ class MealPaymentProcessorTest {
     @Mock
     private TransactionRepository transactionRepository;
 
+    private String id;
     private String idAccount;
     private String idTransaction;
 
     @BeforeEach
     public void init() {
+        this.id = UUID.fromString("b3404d4c-ada8-465a-977a-0cc83f1451bb").toString();
         this.idAccount = UUID.fromString("4507ccc6-47c0-4723-b654-a105c1ba9e52").toString();
         this.idTransaction = UUID.fromString("b152ae80-2897-4e7d-af1b-f6f985598007").toString();
 
@@ -48,7 +50,7 @@ class MealPaymentProcessorTest {
     void testProcessMealPayment() {
 
         AccountBalance accountBalanceRequest = AccountBalanceUtil.get();
-        AccountBalance accountBalanceResponse = AccountBalance.create(idAccount, new BigDecimal(400), MEAL, null);
+        AccountBalance accountBalanceResponse = AccountBalance.create(id, idAccount, new BigDecimal(400), MEAL, null);
 //        AccountBalance accountBalanceResponse = AccountBalance.create()
 //                .id(idAccount)
 //                .mcc(MEAL)

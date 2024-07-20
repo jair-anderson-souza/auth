@@ -1,8 +1,11 @@
 package io.github.jairandersonsouza.authorizer.processors;
 
+import io.github.jairandersonsouza.authorizer.controllers.TransactionController;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,8 @@ import java.util.Map;
 
 @Service
 public class PaymentFactory {
+
+    private static final Logger log = LoggerFactory.getLogger(PaymentFactory.class);
 
     @Autowired
     private Map<String, PaymentProcessor> targets;
@@ -38,7 +43,7 @@ public class PaymentFactory {
     }
 
     public boolean isMeal(TransactionInput transactionInput) {
-        return transactionInput.getMcc().equals("5811") || transactionInput.getMcc().equals("5812");
+        return transactionInput.isMeal();
     }
 
     boolean isFoodOperationValid(AccountBalance account, TransactionInput transactionInput) {
@@ -46,7 +51,7 @@ public class PaymentFactory {
     }
 
     public boolean isFood(TransactionInput transactionInput) {
-        return transactionInput.getMcc().equals("5411") || transactionInput.getMcc().equals("5412");
+        return transactionInput.isFood();
     }
 
 

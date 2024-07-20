@@ -17,7 +17,10 @@ public final class AccountBalance implements Serializable {
     @Id
     @Column(name = "id")
     private String id;
-//
+
+    @Column(name = "account_id")
+    private String accountId;
+
 
     @Column(name = "balance", columnDefinition = "NUMERIC(10,2)")
     private BigDecimal balance;
@@ -32,8 +35,9 @@ public final class AccountBalance implements Serializable {
     private AccountBalance() {
     }
 
-    private AccountBalance(String id, BigDecimal balance, MccEnum mcc, String companyName) {
+    private AccountBalance(String id, String accountId, BigDecimal balance, MccEnum mcc, String companyName) {
         this.id = id;
+        this.accountId = accountId;
         this.balance = balance;
         this.mcc = mcc;
         this.companyName = companyName;
@@ -58,15 +62,15 @@ public final class AccountBalance implements Serializable {
 
     public AccountBalance debitAmount(BigDecimal amountTransaction) {
         final var balance = this.balance.subtract(amountTransaction);
-        return new AccountBalance(this.id, balance, this.mcc, this.companyName);
+        return new AccountBalance(this.id, this.accountId, balance, this.mcc, this.companyName);
     }
 
     public boolean amountGteThan(TransactionInput transactionInput) {
         return this.balance.compareTo(transactionInput.getTotalAmount()) >= 0;
     }
 
-    public static AccountBalance create(String id, BigDecimal balance, MccEnum mcc, String companyName) {
-        return new AccountBalance(id, balance, mcc, companyName);
+    public static AccountBalance create(String id, String accountId, BigDecimal balance, MccEnum mcc, String companyName) {
+        return new AccountBalance(id, accountId, balance, mcc, companyName);
     }
 
     @Override
@@ -82,5 +86,14 @@ public final class AccountBalance implements Serializable {
         return Objects.hashCode(id);
     }
 
-
+    @Override
+    public String toString() {
+        return "AccountBalance{" +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
+                ", balance=" + balance +
+                ", mcc=" + mcc +
+                ", companyName='" + companyName + '\'' +
+                '}';
+    }
 }

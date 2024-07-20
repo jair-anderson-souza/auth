@@ -4,10 +4,11 @@ import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
-import io.github.jairandersonsouza.authorizer.repository.TransacaoRePo;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountBalanceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +22,7 @@ public abstract class PaymentProcessor {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Autowired
-    private TransacaoRePo transacaoRePo;
+    private static final Logger log = LoggerFactory.getLogger(PaymentFactory.class);
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void startTransaction(TransactionInput transactionInput, AccountBalance account) {
@@ -32,6 +32,8 @@ public abstract class PaymentProcessor {
             var tran = Transaction.create(transactionInput);
             this.transactionRepository.save(tran);
         } catch (TransactionRejectedException e) {
+            log.info("[PaymentProcessor]: {}, {}", account, transactionInput);
+
             throw e;
         }
 

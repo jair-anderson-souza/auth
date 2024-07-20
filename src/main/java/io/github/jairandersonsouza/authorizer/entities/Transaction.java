@@ -24,15 +24,13 @@ public final class Transaction implements Serializable {
     @Column(name = "account_id")
     private String accountId;
 
-    //add @Column com valores limites
-    //validar, trocar por Money
+    @Column(name = "amount", columnDefinition = "NUMERIC(10,2)")
     private BigDecimal amount;
 
+    @Column(name = "merchant")
     private String merchant;
 
-    //TODO
-    //validar, trocar por int, limite de 4 numeros
-    //validar bean validation
+    @Column(name = "mcc")
     private String mcc;
 
     public String getId() {

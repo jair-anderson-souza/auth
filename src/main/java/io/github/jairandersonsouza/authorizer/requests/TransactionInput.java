@@ -54,5 +54,21 @@ public class TransactionInput {
         this.merchant = merchant;
     }
 
+    public boolean isMeal() {
+        return this.mcc.equals("5811") || this.mcc.equals("5812");
+    }
 
+    public boolean isFood() {
+        return this.mcc.equals("5411") || this.mcc.equals("5412");
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionInput{" +
+                "account='" + account + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", mcc='" + mcc + '\'' +
+                ", merchant='" + merchant + '\'' +
+                '}';
+    }
 }

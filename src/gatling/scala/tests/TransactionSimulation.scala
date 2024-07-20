@@ -3,6 +3,7 @@ package tests
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
+import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
 class TransactionSimulation extends Simulation {
@@ -28,6 +29,7 @@ class TransactionSimulation extends Simulation {
   setUp(
     requests.inject(
       rampConcurrentUsers(1).to(2).during(40) // 2
+//      rampUsersPerSec(0).to(1000).during(1.minutes)
       //        constantConcurrentUsers(3).during(30.toSeconds)
 //      atOnceUsers(3)
     ),
