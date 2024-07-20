@@ -17,10 +17,7 @@ public class AccountBalanceService {
     @Transactional
     public AccountBalance getAccount(String id) {
         final var account = this.accountBalanceRepository.findById(id);
-        if (account.isEmpty()) {
-            throw new AccountNotExistsException();
-        }
-        return account.get();
+        return account.orElseThrow(AccountNotExistsException::new);
     }
 
     public void save(AccountBalance account) {

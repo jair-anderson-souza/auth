@@ -46,13 +46,14 @@ class MealPaymentProcessorTest {
     //TODO
     @Test
     void testProcessMealPayment() {
-        AccountBalance accountBalanceRequest = AccountBalanceUtil.get();
 
-        AccountBalance accountBalanceResponse = AccountBalance.builder()
-                .id(idAccount)
-                .mcc(MEAL)
-                .balance(new BigDecimal(400))
-                .build();
+        AccountBalance accountBalanceRequest = AccountBalanceUtil.get();
+        AccountBalance accountBalanceResponse = AccountBalance.create(idAccount, new BigDecimal(400), MEAL, null);
+//        AccountBalance accountBalanceResponse = AccountBalance.create()
+//                .id(idAccount)
+//                .mcc(MEAL)
+//                .balance(new BigDecimal(400))
+//                .build();
 
         var transactionInput = new TransactionInput();
         transactionInput.setAccount("1123");

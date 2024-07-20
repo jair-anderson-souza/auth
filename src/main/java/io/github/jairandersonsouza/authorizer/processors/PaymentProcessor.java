@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.UUID;
 
 public abstract class PaymentProcessor {
 
@@ -26,13 +24,11 @@ public abstract class PaymentProcessor {
     @Autowired
     private TransacaoRePo transacaoRePo;
 
-    //TODO
-    //validar transactional
     @Transactional(propagation = Propagation.REQUIRED)
     public void startTransaction(TransactionInput transactionInput, AccountBalance account) {
         try {
-            account.debitAmount(transactionInput.getTotalAmount());
-            this.accountBalanceService.save(account);
+            AccountBalance newAccount = account.debitAmount(transactionInput.getTotalAmount());
+            this.accountBalanceService.save(newAccount);
             var tran = Transaction.create(transactionInput);
             this.transactionRepository.save(tran);
         } catch (TransactionRejectedException e) {

@@ -33,15 +33,11 @@ public class PaymentFactory {
 
     }
 
-//    boolean operationIsCash(Account account, TransactionInput transactionInput) {
-//        return (!operationIsMeal(account, transactionInput) && !operationIsMeal(account, transactionInput)) && account.amountGteThan(transactionInput, MccEnum.MEAL);
-//    }
-
     boolean isMealOperationValid(AccountBalance account, TransactionInput transactionInput) {
         return isMeal(transactionInput) && account.amountGteThan(transactionInput);
     }
 
-    public  boolean isMeal(TransactionInput transactionInput) {
+    public boolean isMeal(TransactionInput transactionInput) {
         return transactionInput.getMcc().equals("5811") || transactionInput.getMcc().equals("5812");
     }
 

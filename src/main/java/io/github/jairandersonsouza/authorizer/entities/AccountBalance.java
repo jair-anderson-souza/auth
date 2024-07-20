@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "t_account_balance")
-public class AccountBalance implements Serializable {
+public final class AccountBalance implements Serializable {
 
     //TODO
 //    //id - UUID - gerar na aplicação, é mais rápido
@@ -29,69 +29,44 @@ public class AccountBalance implements Serializable {
     @Column(name = "company_name")
     private String companyName;
 
-    public AccountBalance() {
+    private AccountBalance() {
     }
 
-    public AccountBalance(String id, BigDecimal balance, MccEnum mcc, String companyName) {
+    private AccountBalance(String id, BigDecimal balance, MccEnum mcc, String companyName) {
         this.id = id;
         this.balance = balance;
         this.mcc = mcc;
         this.companyName = companyName;
     }
 
+
     public String getId() {
         return id;
     }
-
 
     public BigDecimal getBalance() {
         return balance;
     }
 
-
     public MccEnum getMcc() {
         return mcc;
     }
-
 
     public String getCompanyName() {
         return companyName;
     }
 
-
-    public void debitAmount(BigDecimal amountTransaction) {
-        //TODO
-        //retornar outra instância de AccountBalance
-        this.balance = this.balance.subtract(amountTransaction);
-
+    public AccountBalance debitAmount(BigDecimal amountTransaction) {
+        final var balance = this.balance.subtract(amountTransaction);
+        return new AccountBalance(this.id, balance, this.mcc, this.companyName);
     }
 
     public boolean amountGteThan(TransactionInput transactionInput) {
         return this.balance.compareTo(transactionInput.getTotalAmount()) >= 0;
-
     }
 
-    public AccountBalance id(String idAccount) {
-        this.id = idAccount;
-        return this;
-    }
-
-    public AccountBalance mcc(MccEnum mcc) {
-        this.mcc = mcc;
-        return this;
-    }
-
-    public AccountBalance balance(BigDecimal balance) {
-        this.balance = balance;
-        return this;
-    }
-
-    public static AccountBalance builder() {
-        return new AccountBalance();
-    }
-
-    public AccountBalance build() {
-        return this;
+    public static AccountBalance create(String id, BigDecimal balance, MccEnum mcc, String companyName) {
+        return new AccountBalance(id, balance, mcc, companyName);
     }
 
     @Override

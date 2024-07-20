@@ -1,6 +1,7 @@
 package io.github.jairandersonsouza.authorizer.util;
 
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
+import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -15,12 +16,8 @@ public class AccountBalanceUtil {
     private String idTransaction = UUID.fromString("b152ae80-2897-4e7d-af1b-f6f985598007").toString();
 
     public static AccountBalance get() {
-        return AccountBalance
-                .builder()
-                .id(ID_ACCOUNT)
-                .mcc(MEAL)
-                .balance(new BigDecimal(500))
-                .build();
+//        public static AccountBalance create(String id, BigDecimal balance, MccEnum mcc, String companyName) {
+        return AccountBalance.create(ID_ACCOUNT, new BigDecimal(500), MEAL, null);
     }
 }
 
