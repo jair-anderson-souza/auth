@@ -1,5 +1,6 @@
 package io.github.jairandersonsouza.authorizer.entities;
 
+import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -48,11 +49,38 @@ public class Account implements Serializable {
         this.balances = balances;
     }
 
+
     public void debit(BigDecimal amountTransaction, MccEnum mcc) {
+
         for (Balance balance : balances) {
             if (balance.getMcc().equals(mcc)) {
                 balance.debitAmount(amountTransaction);
             }
         }
     }
+
+
+//    public boolean validAmount(TransactionInput transactionInput) {
+//        return validMcc(transactionInput);
+//    }
+
+    private boolean validMcc(TransactionInput transactionInput) {
+        for (Balance balance : this.balances) {
+            if (balance.getMcc().name().equals(transactionInput.getMcc())) {
+                return amountGteThan(transactionInput, MccEnum.MEAL);
+            }
+
+        }
+        return false;
+    }
+
+    public boolean amountGteThan(TransactionInput transactionInput, MccEnum mccEnum) {
+        for (Balance balance : this.balances) {
+            if (balance.getMcc().equals(mccEnum)) {
+                return balance.getBalance().compareTo(transactionInput.getTotalAmount()) >= 0;
+            }
+        }
+        return false;
+    }
+
 }

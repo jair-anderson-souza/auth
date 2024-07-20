@@ -55,9 +55,15 @@ public class Balance {
         this.mcc = mcc;
     }
 
+    public boolean balanceIsValid(BigDecimal amountTransaction) {
+        return this.balance.compareTo(amountTransaction) >= 0;
+    }
 
     public void debitAmount(BigDecimal amountTransaction) {
-        this.balance = this.balance.subtract(amountTransaction);
+        if (balanceIsValid(amountTransaction)) {
+            this.balance = this.balance.subtract(amountTransaction);
+        }
+
     }
 
 
