@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 import java.util.UUID;
 
-@Service("CASH")
-public class CashPaymentProcessor implements PaymentProcessor {
+@Service("FOOD")
+public class FoodPaymentProcessor implements PaymentProcessor {
 
 
     @Autowired
@@ -48,7 +47,7 @@ public class CashPaymentProcessor implements PaymentProcessor {
 
     @Override
     public MccEnum getMcc() {
-        return MccEnum.CASH;
+        return MccEnum.FOOD;
     }
 
 }

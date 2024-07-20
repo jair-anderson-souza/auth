@@ -17,10 +17,6 @@ import java.util.UUID;
 public class MealPaymentProcessor implements PaymentProcessor {
 
     @Autowired
-    private Map<String, Specification> specifications;
-
-
-    @Autowired
     private AccountService accountService;
 
     @Autowired
