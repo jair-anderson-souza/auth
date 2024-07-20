@@ -22,7 +22,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./scripts:/docker-entrypoint-initdb.d/
+      - ./src/main/resources:/docker-entrypoint-initdb.d/
 
 # O uso do modo `bridge` deve ser adequado à carga que será usada no teste.
 # A edição anterior se beneficiou do modo host pois o volume de requisições
