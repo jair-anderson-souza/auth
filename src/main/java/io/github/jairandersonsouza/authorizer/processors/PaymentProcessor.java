@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public abstract class PaymentProcessor {
@@ -30,7 +31,7 @@ public abstract class PaymentProcessor {
     @Transactional(propagation = Propagation.REQUIRED)
     public void startTransaction(TransactionInput transactionInput, AccountBalance account) {
         try {
-            account.debit(transactionInput.getTotalAmount());
+            account.debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(account);
             var tran = buildTransaction(transactionInput);
             this.transactionRepository.save(tran);
@@ -41,12 +42,7 @@ public abstract class PaymentProcessor {
     }
 
     public Transaction buildTransaction(TransactionInput transactionInput) {
-        var tran = new Transaction();
-        tran.setId(UUID.randomUUID().toString());
-        tran.setAccountId(transactionInput.getAccount());
-        tran.setAmount(transactionInput.getTotalAmount());
-        tran.setMerchant(transactionInput.getMerchant());
-        tran.setMcc(transactionInput.getMcc());
+        var tran = new Transaction(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant(), transactionInput.getMcc());
         return tran;
     }
 

@@ -60,19 +60,9 @@ class MealPaymentProcessorTest {
         transactionInput.setMerchant("Google");
         transactionInput.setTotalAmount(new BigDecimal(100));
 
-        var tranRequest = new Transaction();
-//        tranRequest.setId(idTransaction);
-        tranRequest.setAccountId(transactionInput.getAccount());
-        tranRequest.setAmount(transactionInput.getTotalAmount());
-        tranRequest.setMerchant(transactionInput.getMerchant());
-        tranRequest.setMcc(transactionInput.getMcc());
+        final var tranRequest = new Transaction(null, transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant(), transactionInput.getMcc());
 
-        var tranResponse = new Transaction();
-        tranResponse.setId(idTransaction);
-        tranResponse.setAccountId(transactionInput.getAccount());
-        tranResponse.setAmount(transactionInput.getTotalAmount());
-        tranResponse.setMerchant(transactionInput.getMerchant());
-        tranResponse.setMcc(transactionInput.getMcc());
+        final var tranResponse = new Transaction(idTransaction, transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant(), transactionInput.getMcc());
 
 
         doNothing().when(accountBalanceService).save(any());

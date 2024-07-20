@@ -59,7 +59,7 @@ public class AccountBalance implements Serializable {
     }
 
 
-    public void debit(BigDecimal amountTransaction) {
+    public void debitAmount(BigDecimal amountTransaction) {
         //TODO
         //retornar outra instância de AccountBalance
         this.balance = this.balance.subtract(amountTransaction);
