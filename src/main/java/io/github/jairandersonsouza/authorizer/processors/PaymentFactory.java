@@ -23,9 +23,9 @@ public class PaymentFactory {
 //        if (operationIsCash(account, transactionInput) || (!operationIsMeal(account, transactionInput) && !operationIsFood(account, transactionInput))) {
 //            return this.targets.get(MccEnum.CASH.name());
 //        } else
-        if (operationIsMeal(account, transactionInput)) {
+        if (isMealOperationValid(account, transactionInput)) {
             return this.targets.get(MccEnum.MEAL.name());
-        } else if (operationIsFood(account, transactionInput)) {
+        } else if (isFoodOperationValid(account, transactionInput)) {
             return this.targets.get(MccEnum.FOOD.name());
         } else {
             return this.targets.get(MccEnum.CASH.name());
@@ -37,12 +37,20 @@ public class PaymentFactory {
 //        return (!operationIsMeal(account, transactionInput) && !operationIsMeal(account, transactionInput)) && account.amountGteThan(transactionInput, MccEnum.MEAL);
 //    }
 
-    boolean operationIsMeal(AccountBalance account, TransactionInput transactionInput) {
-        return (transactionInput.getMcc().equals("5811") || transactionInput.getMcc().equals("5812")) && account.amountGteThan(transactionInput);
+    boolean isMealOperationValid(AccountBalance account, TransactionInput transactionInput) {
+        return isMeal(transactionInput) && account.amountGteThan(transactionInput);
     }
 
-    boolean operationIsFood(AccountBalance account, TransactionInput transactionInput) {
-        return (transactionInput.getMcc().equals("5411") || transactionInput.getMcc().equals("5412")) && account.amountGteThan(transactionInput);
+    public  boolean isMeal(TransactionInput transactionInput) {
+        return transactionInput.getMcc().equals("5811") || transactionInput.getMcc().equals("5812");
+    }
+
+    boolean isFoodOperationValid(AccountBalance account, TransactionInput transactionInput) {
+        return isFood(transactionInput) && account.amountGteThan(transactionInput);
+    }
+
+    public boolean isFood(TransactionInput transactionInput) {
+        return transactionInput.getMcc().equals("5411") || transactionInput.getMcc().equals("5412");
     }
 
 
