@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service("CASH")
-public class CashPaymentProcessor implements PaymentProcessor {
+public class CashPaymentProcessor extends PaymentProcessor {
 
 
     @Autowired
@@ -23,27 +23,27 @@ public class CashPaymentProcessor implements PaymentProcessor {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Transactional
-    @Override
-    public void startTransaction(TransactionInput transactionInput) {
-        try {
-
-            final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
-            account.debit(transactionInput.getTotalAmount(), getMcc());
-
-            this.accountService.save(account);
-            var tran = new Transaction();
-            tran.setId(UUID.randomUUID().toString());
-            tran.setAccountId(transactionInput.getAccount());
-            tran.setAmount(transactionInput.getTotalAmount());
-            tran.setMerchant(transactionInput.getMerchant());
-            tran.setMcc(transactionInput.getMcc());
-            this.transactionRepository.save(tran);
-        } catch (TransactionRejectedException e) {
-            throw e;
-        }
-
-    }
+//    @Transactional
+//    @Override
+//    public void startTransaction(TransactionInput transactionInput) {
+//        try {
+//
+//            final var account = this.accountService.getAccount(transactionInput.getAccount(), transactionInput.getTotalAmount());
+//            account.debit(transactionInput.getTotalAmount(), getMcc());
+//
+//            this.accountService.save(account);
+//            var tran = new Transaction();
+//            tran.setId(UUID.randomUUID().toString());
+//            tran.setAccountId(transactionInput.getAccount());
+//            tran.setAmount(transactionInput.getTotalAmount());
+//            tran.setMerchant(transactionInput.getMerchant());
+//            tran.setMcc(transactionInput.getMcc());
+//            this.transactionRepository.save(tran);
+//        } catch (TransactionRejectedException e) {
+//            throw e;
+//        }
+//
+//    }
 
     @Override
     public MccEnum getMcc() {
