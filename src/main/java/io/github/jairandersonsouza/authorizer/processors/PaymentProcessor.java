@@ -39,7 +39,6 @@ public abstract class PaymentProcessor {
             tran.setMerchant(transactionInput.getMerchant());
             tran.setMcc(transactionInput.getMcc());
             this.transactionRepository.save(tran);
-            transactionRepository.save(tran);
         } catch (TransactionRejectedException e) {
             throw e;
         }

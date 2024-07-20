@@ -1,7 +1,6 @@
-package io.github.jairandersonsouza.authorizer.template;
+package io.github.jairandersonsouza.authorizer.processors;
 
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
-import io.github.jairandersonsouza.authorizer.processors.*;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
