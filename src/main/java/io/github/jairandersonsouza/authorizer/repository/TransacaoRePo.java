@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
-public class TrancasaoRe {
+//TODO
+//validar jdbc
+public class TransacaoRePo {
 
     @Autowired
             private JdbcTemplate jdbcTemplate;
@@ -20,7 +20,7 @@ public class TrancasaoRe {
 //        tran.setMerchant(transactionInput.getMerchant());
 //        tran.setMcc(transactionInput.getMcc());
 
-        var sql = "INSERT INTO t_transaction(id, account_id, amount, merchant, mcc) values(?,?,?,?,?)";
+        var sql = "INSERT INTO t_transaction(id, account_id, amount, merchant, mcc, id) values(?,?,?,?,?)";
         jdbcTemplate.update(sql, transaction.getId(), transaction.getAccountId(), transaction.getAmount(), transaction.getMerchant(), transaction.getMcc());
     }
 

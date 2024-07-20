@@ -4,7 +4,7 @@ import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
-import io.github.jairandersonsouza.authorizer.repository.TrancasaoRe;
+import io.github.jairandersonsouza.authorizer.repository.TransacaoRePo;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountBalanceService;
@@ -23,7 +23,7 @@ public abstract class PaymentProcessor {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    private TrancasaoRe trancasaoRe;
+    private TransacaoRePo transacaoRePo;
 
     //TODO
     //validar transactional
@@ -38,8 +38,8 @@ public abstract class PaymentProcessor {
             tran.setAmount(transactionInput.getTotalAmount());
             tran.setMerchant(transactionInput.getMerchant());
             tran.setMcc(transactionInput.getMcc());
-//            this.transactionRepository.save(tran);
-            trancasaoRe.insert(tran);
+            this.transactionRepository.save(tran);
+            transactionRepository.save(tran);
         } catch (TransactionRejectedException e) {
             throw e;
         }

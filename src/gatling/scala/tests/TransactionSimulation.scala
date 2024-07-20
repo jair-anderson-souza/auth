@@ -19,7 +19,7 @@ class TransactionSimulation extends Simulation {
   }
 
 
-  val httpProtocol = http.baseUrl("http://localhost:8080").header("Content-Type", "application/json")
+  val httpProtocol = http.baseUrl("http://localhost:8181").header("Content-Type", "application/json")
 
 
   val requests = scenario("transactions").exec(Create.scenarioCreate)
@@ -27,8 +27,9 @@ class TransactionSimulation extends Simulation {
 
   setUp(
     requests.inject(
-//      constantConcurrentUsers(3).during(1.seconds)
-      atOnceUsers(3)
+      rampConcurrentUsers(1).to(2).during(40) // 2
+      //        constantConcurrentUsers(3).during(30.toSeconds)
+//      atOnceUsers(3)
     ),
     //    users.inject(
     //      rampUsersPerSec(0).to(100).during(10.minutes)

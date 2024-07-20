@@ -19,7 +19,7 @@ repositories {
 }
 
 bootRun {
-    args = ["--spring.profiles.active=postgres"]
+    args = ["--spring.profiles.active=h2"]
 }
 
 
