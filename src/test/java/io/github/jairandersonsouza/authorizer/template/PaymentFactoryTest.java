@@ -2,6 +2,7 @@ package io.github.jairandersonsouza.authorizer.template;
 
 import io.github.jairandersonsouza.authorizer.entities.Account;
 import io.github.jairandersonsouza.authorizer.entities.Balance;
+import io.github.jairandersonsouza.authorizer.processors.*;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

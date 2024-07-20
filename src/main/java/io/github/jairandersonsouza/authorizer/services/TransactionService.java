@@ -2,8 +2,8 @@
 package io.github.jairandersonsouza.authorizer.services;
 
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
-import io.github.jairandersonsouza.authorizer.template.PaymentFactory;
-import io.github.jairandersonsouza.authorizer.template.PaymentProcessor;
+import io.github.jairandersonsouza.authorizer.processors.PaymentFactory;
+import io.github.jairandersonsouza.authorizer.processors.PaymentProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

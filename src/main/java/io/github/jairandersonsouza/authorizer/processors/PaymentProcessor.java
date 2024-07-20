@@ -1,4 +1,4 @@
-package io.github.jairandersonsouza.authorizer.template;
+package io.github.jairandersonsouza.authorizer.processors;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class PaymentProcessor {
 
@@ -19,6 +20,8 @@ public abstract class PaymentProcessor {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    //TODO
+    //validar transactional
     @Transactional
     public void startTransaction(TransactionInput transactionInput) {
         try {

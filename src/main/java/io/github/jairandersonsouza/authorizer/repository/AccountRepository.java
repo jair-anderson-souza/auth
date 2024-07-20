@@ -12,6 +12,8 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, String> {
 
+    //TODO
+    //Validar isso
     @Lock(LockModeType.PESSIMISTIC_READ)
     Optional<Account> findById(String id);
 

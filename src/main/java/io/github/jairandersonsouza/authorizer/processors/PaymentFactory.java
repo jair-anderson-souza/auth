@@ -1,4 +1,4 @@
-package io.github.jairandersonsouza.authorizer.template;
+package io.github.jairandersonsouza.authorizer.processors;
 
 import io.github.jairandersonsouza.authorizer.entities.Account;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;

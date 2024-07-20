@@ -1,16 +1,10 @@
-package io.github.jairandersonsouza.authorizer.template;
+package io.github.jairandersonsouza.authorizer.processors;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
-import io.github.jairandersonsouza.authorizer.entities.Transaction;
-import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Service("FOOD")
 public class FoodPaymentProcessor extends PaymentProcessor {
