@@ -1,6 +1,6 @@
 package io.github.jairandersonsouza.authorizer.repository;
 
-import io.github.jairandersonsouza.authorizer.entities.Account;
+import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -10,11 +10,11 @@ import java.util.Optional;
 
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, String> {
+public interface AccountBalanceRepository extends JpaRepository<AccountBalance, String> {
 
     //TODO
     //Validar isso
     @Lock(LockModeType.PESSIMISTIC_READ)
-    Optional<Account> findById(String id);
+    Optional<AccountBalance> findById(String id);
 
 }

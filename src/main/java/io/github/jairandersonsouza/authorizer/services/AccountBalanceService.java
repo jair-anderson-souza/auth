@@ -1,31 +1,29 @@
 package io.github.jairandersonsouza.authorizer.services;
 
-import io.github.jairandersonsouza.authorizer.entities.Account;
+import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
-import io.github.jairandersonsouza.authorizer.repository.AccountRepository;
+import io.github.jairandersonsouza.authorizer.repository.AccountBalanceRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-
 @Service
-public class AccountService {
+public class AccountBalanceService {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountBalanceRepository accountBalanceRepository;
 
 
     @Transactional
-    public Account getAccount(String id) {
-        final var account = this.accountRepository.findById(id);
+    public AccountBalance getAccount(String id) {
+        final var account = this.accountBalanceRepository.findById(id);
         if (account.isEmpty()) {
             throw new AccountNotExistsException();
         }
         return account.get();
     }
 
-    public void save(Account account) {
-        this.accountRepository.save(account);
+    public void save(AccountBalance account) {
+        this.accountBalanceRepository.save(account);
     }
 }

@@ -16,7 +16,7 @@ public class TransactionService {
 //    private TransactionValidation transactionValidation;
 
     @Autowired
-    private AccountService accountService;
+    private AccountBalanceService accountBalanceService;
 
     @Autowired
     private Map<String, PaymentProcessor> adapters;
@@ -25,7 +25,7 @@ public class TransactionService {
     private PaymentFactory paymentFactory;
 
     public void transact(TransactionInput transactionInput) {
-        final var account = this.accountService.getAccount(transactionInput.getAccount());
+        final var account = this.accountBalanceService.getAccount(transactionInput.getAccount());
         final var paymentProcessor = this.paymentFactory.getProcessor(transactionInput, account);
         paymentProcessor.startTransaction(transactionInput, account);
     }

@@ -1,6 +1,6 @@
 package io.github.jairandersonsouza.authorizer.processors;
 
-import io.github.jairandersonsouza.authorizer.entities.Account;
+import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class PaymentFactory {
     @Autowired
     private Map<String, PaymentProcessor> targets;
 
-    public PaymentProcessor getProcessor(TransactionInput transactionInput, Account account) {
+    public PaymentProcessor getProcessor(TransactionInput transactionInput, AccountBalance account) {
         //TODO
         //fazer aqui a validação do account
         //1. verifica logo limite de saldo, se não houver, retorna CASH
@@ -37,12 +37,12 @@ public class PaymentFactory {
 //        return (!operationIsMeal(account, transactionInput) && !operationIsMeal(account, transactionInput)) && account.amountGteThan(transactionInput, MccEnum.MEAL);
 //    }
 
-    boolean operationIsMeal(Account account, TransactionInput transactionInput) {
-        return (transactionInput.getMcc().equals("5811") || transactionInput.getMcc().equals("5812")) && account.amountGteThan(transactionInput, MccEnum.MEAL);
+    boolean operationIsMeal(AccountBalance account, TransactionInput transactionInput) {
+        return (transactionInput.getMcc().equals("5811") || transactionInput.getMcc().equals("5812")) && account.amountGteThan(transactionInput);
     }
 
-    boolean operationIsFood(Account account, TransactionInput transactionInput) {
-        return (transactionInput.getMcc().equals("5411") || transactionInput.getMcc().equals("5412")) && account.amountGteThan(transactionInput, MccEnum.FOOD);
+    boolean operationIsFood(AccountBalance account, TransactionInput transactionInput) {
+        return (transactionInput.getMcc().equals("5411") || transactionInput.getMcc().equals("5412")) && account.amountGteThan(transactionInput);
     }
 
 
