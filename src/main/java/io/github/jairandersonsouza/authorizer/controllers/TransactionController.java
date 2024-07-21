@@ -1,5 +1,6 @@
 package io.github.jairandersonsouza.authorizer.controllers;
 
+import io.github.jairandersonsouza.authorizer.factories.TransactionProcessorFactory;
 import io.github.jairandersonsouza.authorizer.interceptors.ResponseBuilder;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.TransactionService;
@@ -20,12 +21,16 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private TransactionProcessorFactory transactionProcessorFactory;
+
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseBuilder transaction(@RequestBody @Valid TransactionInput transactionInput) {
-        this.transactionService.transact(transactionInput);
+        final var paymentProcessor = this.transactionProcessorFactory.getProcessor(transactionInput);
+        paymentProcessor.processTransaction(transactionInput);
         return ResponseBuilder.builder().code("00").build();
     }
 

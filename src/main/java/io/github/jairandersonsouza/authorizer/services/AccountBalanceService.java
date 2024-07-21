@@ -4,12 +4,9 @@ import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
-import io.github.jairandersonsouza.authorizer.factories.PaymentFactory;
 import io.github.jairandersonsouza.authorizer.repository.AccountBalanceRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +20,7 @@ public class AccountBalanceService {
     @Transactional
     public AccountBalance getValidAccount(TransactionInput transactionInput) {
         final var account = getAccount(transactionInput);
-        if (!amountIsValid(account, transactionInput)) {
+        if (!authorize(account, transactionInput)) {
             throw new TransactionRejectedException();
         }
         return account;
@@ -42,7 +39,7 @@ public class AccountBalanceService {
 
     }
 
-    private boolean amountIsValid(AccountBalance account, TransactionInput transactionInput) {
+    private boolean authorize(AccountBalance account, TransactionInput transactionInput) {
         return account.amountGteThan(transactionInput);
     }
 }

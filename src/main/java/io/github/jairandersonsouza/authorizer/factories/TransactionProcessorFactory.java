@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class PaymentFactory {
+public class TransactionProcessorFactory {
 
     @Autowired
     private Map<String, TransactionProcessor> targets;

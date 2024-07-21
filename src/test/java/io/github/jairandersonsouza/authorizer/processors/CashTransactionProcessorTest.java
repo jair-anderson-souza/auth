@@ -3,7 +3,6 @@ package io.github.jairandersonsouza.authorizer.processors;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
-import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;

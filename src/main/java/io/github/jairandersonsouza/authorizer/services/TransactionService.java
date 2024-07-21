@@ -1,8 +1,9 @@
 
 package io.github.jairandersonsouza.authorizer.services;
 
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
-import io.github.jairandersonsouza.authorizer.factories.PaymentFactory;
+import io.github.jairandersonsouza.authorizer.entities.Transaction;
+import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
+import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.processors.TransactionProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,17 @@ public class TransactionService {
     @Autowired
     private AccountBalanceService accountBalanceService;
 
-    @Autowired
-    private Map<String, TransactionProcessor> adapters;
+//    @Autowired
+//    private Map<String, TransactionProcessor> adapters;
 
     @Autowired
-    private PaymentFactory paymentFactory;
+    private TransactionRepository transactionRepository;
 
-    public void transact(TransactionInput transactionInput) {
-        final var paymentProcessor = this.paymentFactory.getProcessor(transactionInput);
-        paymentProcessor.processTransaction(transactionInput);
+    public void save(Transaction transaction) {
+        try {
+            this.transactionRepository.save(transaction);
+        } catch (Exception e) {
+            throw new TransactionRejectedException();
+        }
     }
-
 }
