@@ -17,6 +17,8 @@ public abstract class TransactionProcessor {
     @Autowired
     private AccountBalanceService accountBalanceService;
 
+    //TODO
+    //chamar primeiros os prcessors, e depois chama os services pra salvar
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -28,8 +30,8 @@ public abstract class TransactionProcessor {
             AccountBalance newAccount = account.debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(newAccount);
             this.transactionRepository.save(Transaction.create(transactionInput));
-        } catch (TransactionRejectedException e) {
-            throw e;
+        } catch (Exception e) {
+            throw new TransactionRejectedException();
         }
     }
 
