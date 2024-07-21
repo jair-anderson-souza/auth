@@ -19,11 +19,9 @@ public class AccountBalanceService {
     @Autowired
     private AccountBalanceRepository accountBalanceRepository;
 
-    private static final Logger log = LoggerFactory.getLogger(PaymentFactory.class);
 
     @Transactional
     public AccountBalance getValidAccount(TransactionInput transactionInput) {
-        //TODO///add index
         final var account = getAccount(transactionInput);
         if (!amountIsValid(account, transactionInput)) {
             throw new TransactionRejectedException();
@@ -35,7 +33,6 @@ public class AccountBalanceService {
         try {
             this.accountBalanceRepository.save(account);
         } catch (Exception e) {
-            log.info("[AccountBalanceService]: {}", account);
             throw new TransactionRejectedException();
         }
     }

@@ -10,9 +10,6 @@ public class ResponseBuilder {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public ResponseBuilder code(String code) {
         this.code = code;
