@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS t_transaction(
     merchant varchar(36) NOT NULL
 );
 
-CREATE INDEX account_id_mcc
+CREATE INDEX IF NOT EXISTS account_id_mcc
 ON t_account_balance (account_id, mcc);
 
 insert into t_account_balance(id, account_id, balance, mcc, company_name) values ('88cae9b9-eedb-48ca-a2b4-4fcffa47714f', '5ac90306-5796-4897-b749-84b78b07bcda', '1000', 'MEAL', 'Google');
