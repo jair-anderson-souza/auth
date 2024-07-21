@@ -4,8 +4,6 @@ import io.github.jairandersonsouza.authorizer.interceptors.ResponseBuilder;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.TransactionService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -19,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class TransactionController {
 
-    //TODO
-    //remover
-    private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
     @Autowired
     private TransactionService transactionService;
 
