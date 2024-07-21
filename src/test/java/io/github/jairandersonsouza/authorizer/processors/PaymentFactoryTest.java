@@ -35,9 +35,8 @@ class PaymentFactoryTest {
 
 
     @Test
-    void testGetMeal() {
+    void testShouldReturnsMealPaymentProcess() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
-
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5811");
@@ -49,7 +48,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetAlsoMeal() {
+    void testShouldAlsoReturnsMealPaymentProcess() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -62,7 +61,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetCashBecauseTheAmountIsLowerForMeal() {
+    void testShouldReturnsCashPaymentProcessBecauseTheAmountIsInvalid() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(50), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -75,7 +74,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetCashBecauseTheMccIsInvalid() {
+    void testShouldReturnsCashPaymentProcessBecauseTheMccIsInvalid() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -88,7 +87,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetFood() {
+    void testShouldReturnsFoodPaymentProcess() {
         AccountBalance balance = AccountBalance.create(null, null,new BigDecimal(500), FOOD, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -99,11 +98,9 @@ class PaymentFactoryTest {
         assertInstanceOf(FoodPaymentProcessor.class, processor);
     }
 
-
     @Test
-    void testGetAlsoFood() {
+    void testShouldAlsoReturnsFoodPaymentProcess() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), FOOD, null);
-
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
         transaction.setMcc("5411");
@@ -114,7 +111,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetCashBecauseTheAmountIsLowerForFood() {
+    void testShouldAlsoReturnsCashPaymentProcessBecauseTheAmountIsInvalid() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(50), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -127,7 +124,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetCashBecauseTheAmountIsLowerFor() {
+    void testShouldAlsoReturnsCashPaymentProcessBecauseTheMccIsInvalid() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), MEAL, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -139,7 +136,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetCash() {
+    void testShouldAlsoReturnsCashPaymentProcessBecauseTheMccIsAlsoInvalid() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), CASH, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
@@ -151,7 +148,7 @@ class PaymentFactoryTest {
     }
 
     @Test
-    void testGetAlsoCash() {
+    void testShouldReturnsCashPaymentProcessBecauseTheMccIsAlsoInvalid() {
         AccountBalance balance = AccountBalance.create(null, null, new BigDecimal(500), CASH, null);
         var transaction = new TransactionInput();
         transaction.setAccount("1123");
