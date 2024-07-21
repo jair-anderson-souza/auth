@@ -1,6 +1,7 @@
 package io.github.jairandersonsouza.authorizer.processors;
 
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
+import io.github.jairandersonsouza.authorizer.factories.PaymentFactory;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,14 +24,14 @@ class PaymentFactoryTest {
     private PaymentFactory paymentFactory;
 
 
-    private Map<String, PaymentProcessor> processors = mock(Map.class);
+    private Map<String, TransactionProcessor> processors = mock(Map.class);
 
 
     @BeforeEach
     public void init() {
-        when(processors.get(FOOD.name())).thenReturn(new FoodPaymentProcessor());
-        when(processors.get(CASH.name())).thenReturn(new CashPaymentProcessor());
-        when(processors.get(MEAL.name())).thenReturn(new MealPaymentProcessor());
+        when(processors.get(FOOD.name())).thenReturn(new FoodTransactionProcessor());
+        when(processors.get(CASH.name())).thenReturn(new CashTransactionProcessor());
+        when(processors.get(MEAL.name())).thenReturn(new MealTransactionProcessor());
     }
 
 
@@ -44,7 +45,7 @@ class PaymentFactoryTest {
         transaction.setTotalAmount(new BigDecimal(100));
 
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(MealPaymentProcessor.class, processor);
+        assertInstanceOf(MealTransactionProcessor.class, processor);
     }
 
     @Test
@@ -57,7 +58,7 @@ class PaymentFactoryTest {
         transaction.setTotalAmount(new BigDecimal(100));
 
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(MealPaymentProcessor.class, processor);
+        assertInstanceOf(MealTransactionProcessor.class, processor);
     }
 
     @Test
@@ -70,7 +71,7 @@ class PaymentFactoryTest {
         transaction.setTotalAmount(new BigDecimal(100));
 
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(CashPaymentProcessor.class, processor);
+        assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
     @Test
@@ -83,7 +84,7 @@ class PaymentFactoryTest {
         transaction.setTotalAmount(new BigDecimal(100));
 
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(CashPaymentProcessor.class, processor);
+        assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
     @Test
@@ -95,7 +96,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(FoodPaymentProcessor.class, processor);
+        assertInstanceOf(FoodTransactionProcessor.class, processor);
     }
 
     @Test
@@ -107,7 +108,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(FoodPaymentProcessor.class, processor);
+        assertInstanceOf(FoodTransactionProcessor.class, processor);
     }
 
     @Test
@@ -120,7 +121,7 @@ class PaymentFactoryTest {
         transaction.setTotalAmount(new BigDecimal(100));
 
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(CashPaymentProcessor.class, processor);
+        assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
     @Test
@@ -132,7 +133,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(CashPaymentProcessor.class, processor);
+        assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
     @Test
@@ -144,7 +145,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(CashPaymentProcessor.class, processor);
+        assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
     @Test
@@ -156,7 +157,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
         final var processor = this.paymentFactory.getProcessor(transaction, balance);
-        assertInstanceOf(CashPaymentProcessor.class, processor);
+        assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
 

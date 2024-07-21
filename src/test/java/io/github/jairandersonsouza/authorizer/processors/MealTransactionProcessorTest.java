@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class MealPaymentProcessorTest {
+class MealTransactionProcessorTest {
 
     @InjectMocks
-    private MealPaymentProcessor mealPaymentProcessor;
+    private MealTransactionProcessor mealPaymentProcessor;
 
     @Mock
     private AccountBalanceService accountBalanceService;
@@ -71,7 +71,7 @@ class MealPaymentProcessorTest {
         doNothing().when(accountBalanceService).save(any());
 //        when(transactionRepository.save(tranRequest)).thenReturn(tranResponse);
 
-        this.mealPaymentProcessor.startTransaction(transactionInput, accountBalanceRequest);
+        this.mealPaymentProcessor.processTransaction(transactionInput, accountBalanceRequest);
 
         final ArgumentCaptor<AccountBalance> argumentCaptorAccount = ArgumentCaptor.forClass(AccountBalance.class);
         final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);

@@ -4,7 +4,7 @@ import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
-import io.github.jairandersonsouza.authorizer.processors.PaymentFactory;
+import io.github.jairandersonsouza.authorizer.factories.PaymentFactory;
 import io.github.jairandersonsouza.authorizer.repository.AccountBalanceRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class AccountBalanceService {
     private static final Logger log = LoggerFactory.getLogger(PaymentFactory.class);
 
     @Transactional
-    public AccountBalance getAccount(String id, MccEnum mcc) {
+    public AccountBalance getAccountIdAndMcc(String id, MccEnum mcc) {
         final var account = this.accountBalanceRepository.findByAccountIdAndMcc(id, mcc);
         return account.orElseThrow(AccountNotExistsException::new);
     }

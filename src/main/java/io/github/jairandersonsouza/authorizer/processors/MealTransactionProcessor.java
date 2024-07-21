@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("MEAL")
-public class MealPaymentProcessor extends PaymentProcessor {
+public class MealTransactionProcessor extends TransactionProcessor {
 
     @Autowired
     private AccountBalanceService accountBalanceService;
@@ -18,8 +18,8 @@ public class MealPaymentProcessor extends PaymentProcessor {
     private TransactionRepository transactionRepository;
 
     @Override
-    public void startTransaction(TransactionInput transactionInput, AccountBalance account) {
-        super.startTransaction(transactionInput, account);
+    public void processTransaction(TransactionInput transactionInput, AccountBalance account) {
+        super.processTransaction(transactionInput, account);
     }
 
     @Override

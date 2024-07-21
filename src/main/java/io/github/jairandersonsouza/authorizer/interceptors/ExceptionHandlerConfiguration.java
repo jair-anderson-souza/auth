@@ -2,7 +2,6 @@ package io.github.jairandersonsouza.authorizer.interceptors;
 
 import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
-import io.github.jairandersonsouza.authorizer.processors.PaymentFactory;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +14,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-
-import java.util.stream.Collectors;
-
 @RestControllerAdvice
 public class ExceptionHandlerConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(PaymentFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(ExceptionHandlerConfiguration.class);
 
     public final static String GENERIC_PROBLEM = "07";
     public final static String REJECTED = "51";

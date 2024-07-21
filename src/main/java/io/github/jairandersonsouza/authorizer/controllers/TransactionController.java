@@ -30,6 +30,7 @@ public class TransactionController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseBuilder transaction(@RequestBody @Valid TransactionInput transactionInput) {
+
         this.transactionService.transact(transactionInput);
         return ResponseBuilder.builder().code("00").build();
     }

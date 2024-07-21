@@ -4,6 +4,7 @@ import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
+import io.github.jairandersonsouza.authorizer.factories.PaymentFactory;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountBalanceService;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-public abstract class PaymentProcessor {
+public abstract class TransactionProcessor {
 
     @Autowired
     private AccountBalanceService accountBalanceService;
@@ -25,7 +26,7 @@ public abstract class PaymentProcessor {
     private static final Logger log = LoggerFactory.getLogger(PaymentFactory.class);
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void startTransaction(TransactionInput transactionInput, AccountBalance account) {
+    public void processTransaction(TransactionInput transactionInput, AccountBalance account) {
         try {
             AccountBalance newAccount = account.debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(newAccount);

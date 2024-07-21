@@ -1,7 +1,8 @@
-package io.github.jairandersonsouza.authorizer.processors;
+package io.github.jairandersonsouza.authorizer.factories;
 
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
+import io.github.jairandersonsouza.authorizer.processors.TransactionProcessor;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,9 @@ import java.util.Map;
 public class PaymentFactory {
 
     @Autowired
-    private Map<String, PaymentProcessor> targets;
+    private Map<String, TransactionProcessor> targets;
 
-    public PaymentProcessor getProcessor(TransactionInput transactionInput, AccountBalance account) {
+    public TransactionProcessor getProcessor(TransactionInput transactionInput, AccountBalance account) {
         if (isMealOperationValid(account, transactionInput)) {
             return this.targets.get(MccEnum.MEAL.name());
         } else if (isFoodOperationValid(account, transactionInput)) {
