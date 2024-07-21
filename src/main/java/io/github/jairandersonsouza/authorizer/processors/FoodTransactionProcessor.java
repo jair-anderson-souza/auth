@@ -1,6 +1,5 @@
 package io.github.jairandersonsouza.authorizer.processors;
 
-import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
@@ -19,8 +18,8 @@ public class FoodTransactionProcessor extends TransactionProcessor {
     private TransactionRepository transactionRepository;
 
     @Override
-    public void processTransaction(TransactionInput transactionInput, AccountBalance account) {
-        super.processTransaction(transactionInput, account);
+    public void processTransaction(TransactionInput transactionInput) {
+        super.processTransaction(transactionInput);
     }
 
     //    @Transactional
@@ -47,7 +46,7 @@ public class FoodTransactionProcessor extends TransactionProcessor {
 //    }
 
     @Override
-    public MccEnum getMcc() {
+    public MccEnum getMcc(String mcc) {
         return MccEnum.FOOD;
     }
 

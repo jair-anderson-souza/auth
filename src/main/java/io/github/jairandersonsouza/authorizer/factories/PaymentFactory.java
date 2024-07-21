@@ -1,6 +1,5 @@
 package io.github.jairandersonsouza.authorizer.factories;
 
-import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.processors.TransactionProcessor;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
@@ -16,27 +15,20 @@ public class PaymentFactory {
     @Autowired
     private Map<String, TransactionProcessor> targets;
 
-    public TransactionProcessor getProcessor(TransactionInput transactionInput, AccountBalance account) {
-        if (isMealOperationValid(account, transactionInput)) {
+    public TransactionProcessor getProcessor(TransactionInput transactionInput) {
+        if (isMeal(transactionInput)) {
             return this.targets.get(MccEnum.MEAL.name());
-        } else if (isFoodOperationValid(account, transactionInput)) {
+        } else if (isFood(transactionInput)) {
             return this.targets.get(MccEnum.FOOD.name());
         } else {
             return this.targets.get(MccEnum.CASH.name());
         }
     }
 
-    boolean isMealOperationValid(AccountBalance account, TransactionInput transactionInput) {
-        return isMeal(transactionInput) && account.amountGteThan(transactionInput);
-    }
-
     public boolean isMeal(TransactionInput transactionInput) {
         return transactionInput.isMeal();
     }
 
-    boolean isFoodOperationValid(AccountBalance account, TransactionInput transactionInput) {
-        return isFood(transactionInput) && account.amountGteThan(transactionInput);
-    }
 
     public boolean isFood(TransactionInput transactionInput) {
         return transactionInput.isFood();

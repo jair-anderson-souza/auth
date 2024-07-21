@@ -48,6 +48,10 @@ public final class AccountBalance implements Serializable {
         return id;
     }
 
+    public String getAccountId() {
+        return accountId;
+    }
+
     public BigDecimal getBalance() {
         return balance;
     }

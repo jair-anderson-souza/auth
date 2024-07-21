@@ -1,11 +1,11 @@
 package io.github.jairandersonsouza.authorizer.processors;
 
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
+import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.services.AccountBalanceService;
-import io.github.jairandersonsouza.authorizer.util.AccountBalanceUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,34 +48,22 @@ class MealTransactionProcessorTest {
     //TODO
     @Test
     void testProcessMealPayment() {
-
-        AccountBalance accountBalanceRequest = AccountBalanceUtil.get();
         AccountBalance accountBalanceResponse = AccountBalance.create(id, idAccount, new BigDecimal(400), MEAL, null);
-//        AccountBalance accountBalanceResponse = AccountBalance.create()
-//                .id(idAccount)
-//                .mcc(MEAL)
-//                .balance(new BigDecimal(400))
-//                .build();
-
         var transactionInput = new TransactionInput();
         transactionInput.setAccount("1123");
         transactionInput.setMcc("5811");
         transactionInput.setMerchant("Google");
         transactionInput.setTotalAmount(new BigDecimal(100));
 
-        final var tranRequest = Transaction.create(transactionInput);
+        AccountBalance accountBalanceRequest = AccountBalance.create(id, transactionInput.getAccount(), new BigDecimal(400), MccEnum.getMcc(transactionInput.getMcc()), null);
 
-        final var tranResponse = Transaction.create(transactionInput);
+        when(accountBalanceService.getValidAccount(any(TransactionInput.class))).thenReturn(accountBalanceRequest);
+        doNothing().when(accountBalanceService).save(any(AccountBalance.class));
 
-
-        doNothing().when(accountBalanceService).save(any());
-//        when(transactionRepository.save(tranRequest)).thenReturn(tranResponse);
-
-        this.mealPaymentProcessor.processTransaction(transactionInput, accountBalanceRequest);
+        this.mealPaymentProcessor.processTransaction(transactionInput);
 
         final ArgumentCaptor<AccountBalance> argumentCaptorAccount = ArgumentCaptor.forClass(AccountBalance.class);
         final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
-
 
         verify(accountBalanceService)
                 .save(argumentCaptorAccount.capture());
@@ -83,9 +71,7 @@ class MealTransactionProcessorTest {
                 .save(argumentCaptorTransaction.capture());
 
         assertEquals(accountBalanceResponse, argumentCaptorAccount.getValue());
-        //TODO
-        //adicionar esse assertEquals, depois que corrigi o generate do uuid
-        //assertEquals(tranResponse, argumentCaptorTransaction.getValue());
+        assertEquals(Transaction.create(transactionInput), argumentCaptorTransaction.getValue());
     }
 
 

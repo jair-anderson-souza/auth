@@ -1,7 +1,6 @@
 
 package io.github.jairandersonsouza.authorizer.services;
 
-import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.factories.PaymentFactory;
 import io.github.jairandersonsouza.authorizer.processors.TransactionProcessor;
@@ -22,11 +21,9 @@ public class TransactionService {
     @Autowired
     private PaymentFactory paymentFactory;
 
-
     public void transact(TransactionInput transactionInput) {
-        final var account = this.accountBalanceService.getAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc()));
-        final var paymentProcessor = this.paymentFactory.getProcessor(transactionInput, account);
-        paymentProcessor.processTransaction(transactionInput, account);
+        final var paymentProcessor = this.paymentFactory.getProcessor(transactionInput);
+        paymentProcessor.processTransaction(transactionInput);
     }
 
 }

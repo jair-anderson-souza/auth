@@ -6,6 +6,7 @@ import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsExcepti
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.factories.PaymentFactory;
 import io.github.jairandersonsouza.authorizer.repository.AccountBalanceRepository;
+import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,13 @@ public class AccountBalanceService {
     private static final Logger log = LoggerFactory.getLogger(PaymentFactory.class);
 
     @Transactional
-    public AccountBalance getAccountIdAndMcc(String id, MccEnum mcc) {
-        final var account = this.accountBalanceRepository.findByAccountIdAndMcc(id, mcc);
-        return account.orElseThrow(AccountNotExistsException::new);
+    public AccountBalance getValidAccount(TransactionInput transactionInput) {
+        //TODO///add index
+        final var account = getAccount(transactionInput);
+        if (!amountIsValid(account, transactionInput)) {
+            throw new TransactionRejectedException();
+        }
+        return account;
     }
 
     public void save(AccountBalance account) {
@@ -33,5 +38,14 @@ public class AccountBalanceService {
             log.info("[AccountBalanceService]: {}", account);
             throw new TransactionRejectedException();
         }
+    }
+
+    private AccountBalance getAccount(TransactionInput transactionInput) {
+        return this.accountBalanceRepository.findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc())).orElseThrow(AccountNotExistsException::new);
+
+    }
+
+    private boolean amountIsValid(AccountBalance account, TransactionInput transactionInput) {
+        return account.amountGteThan(transactionInput);
     }
 }

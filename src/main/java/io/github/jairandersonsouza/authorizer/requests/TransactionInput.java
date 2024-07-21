@@ -1,5 +1,6 @@
 package io.github.jairandersonsouza.authorizer.requests;
 
+import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
@@ -57,6 +58,12 @@ public class TransactionInput {
     public boolean isMeal() {
         return this.mcc.equals("5811") || this.mcc.equals("5812");
     }
+
+    public void mccAsEnum() {
+        final var mccEnum = MccEnum.valueOf(this.mcc);
+
+    }
+
 
     public boolean isFood() {
         return this.mcc.equals("5411") || this.mcc.equals("5412");

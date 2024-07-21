@@ -44,7 +44,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
 
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(MealTransactionProcessor.class, processor);
     }
 
@@ -57,7 +57,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
 
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(MealTransactionProcessor.class, processor);
     }
 
@@ -70,7 +70,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
 
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
@@ -83,7 +83,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
 
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
@@ -95,7 +95,7 @@ class PaymentFactoryTest {
         transaction.setMcc("5412");
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(FoodTransactionProcessor.class, processor);
     }
 
@@ -107,7 +107,7 @@ class PaymentFactoryTest {
         transaction.setMcc("5411");
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(FoodTransactionProcessor.class, processor);
     }
 
@@ -120,7 +120,7 @@ class PaymentFactoryTest {
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
 
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
@@ -132,7 +132,7 @@ class PaymentFactoryTest {
         transaction.setMcc("3454");
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
@@ -144,7 +144,7 @@ class PaymentFactoryTest {
         transaction.setMcc("2234");
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
@@ -156,7 +156,7 @@ class PaymentFactoryTest {
         transaction.setMcc("3454");
         transaction.setMerchant("Google");
         transaction.setTotalAmount(new BigDecimal(100));
-        final var processor = this.paymentFactory.getProcessor(transaction, balance);
+        final var processor = this.paymentFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionProcessor.class, processor);
     }
 
