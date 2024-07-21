@@ -29,10 +29,8 @@ public class PaymentFactory {
         return transactionInput.isMeal();
     }
 
-
     public boolean isFood(TransactionInput transactionInput) {
         return transactionInput.isFood();
     }
-
 
 }
