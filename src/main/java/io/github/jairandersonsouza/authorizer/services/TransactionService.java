@@ -22,7 +22,7 @@ public abstract class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void startTransaction(TransactionInput transactionInput) {
         try {
             final var account = this.authorizationService.authorizeTransaction(transactionInput);
@@ -38,6 +38,7 @@ public abstract class TransactionService {
         return MccEnum.getMcc(mcc);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void save(Transaction transaction) {
         try {
             this.transactionRepository.save(transaction);

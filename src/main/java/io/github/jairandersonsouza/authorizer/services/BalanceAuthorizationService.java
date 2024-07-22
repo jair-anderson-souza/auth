@@ -5,6 +5,8 @@ import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedExce
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -13,6 +15,7 @@ public class BalanceAuthorizationService implements AuthorizationService {
     @Autowired
     private AccountBalanceService accountBalanceService;
 
+    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public AccountBalance authorizeTransaction(TransactionInput transactionInput) {
         final var account = this.accountBalanceService.getAccount(transactionInput);
