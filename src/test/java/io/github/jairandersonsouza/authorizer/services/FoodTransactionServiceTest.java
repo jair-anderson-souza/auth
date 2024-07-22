@@ -1,23 +1,19 @@
-package io.github.jairandersonsouza.authorizer.processors;
+package io.github.jairandersonsouza.authorizer.services;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.math.BigDecimal;
 
-import static io.github.jairandersonsouza.authorizer.entities.MccEnum.CASH;
 import static io.github.jairandersonsouza.authorizer.entities.MccEnum.FOOD;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class FoodPaymentProcessorTest {
+class FoodTransactionServiceTest {
 
     @InjectMocks
-    private FoodTransactionProcessor foodTransactionProcessor;
-
+    private FoodTransactionService foodTransactionProcessor;
 
     @Test
     void testShouldGetMcc() {
@@ -25,6 +21,4 @@ class FoodPaymentProcessorTest {
         assertEquals(FOOD, mcc);
 
     }
-
-
 }

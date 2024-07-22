@@ -1,7 +1,7 @@
 package io.github.jairandersonsouza.authorizer.factories;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
-import io.github.jairandersonsouza.authorizer.processors.TransactionProcessor;
+import io.github.jairandersonsouza.authorizer.processors.TransactionService;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class TransactionProcessorFactory {
+public class TransactionServiceFactory {
 
     @Autowired
-    private Map<String, TransactionProcessor> targets;
+    private Map<String, TransactionService> targets;
 
-    public TransactionProcessor getProcessor(TransactionInput transactionInput) {
+    public TransactionService getProcessor(TransactionInput transactionInput) {
         if (isMeal(transactionInput)) {
             return this.targets.get(MccEnum.MEAL.name());
         } else if (isFood(transactionInput)) {

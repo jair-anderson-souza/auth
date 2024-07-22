@@ -1,26 +1,44 @@
+package io.github.jairandersonsouza.authorizer.processors;
 
-package io.github.jairandersonsouza.authorizer.services;
-
+import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
+import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
-import io.github.jairandersonsouza.authorizer.processors.TransactionProcessor;
+import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.services.AccountBalanceService;
+import io.github.jairandersonsouza.authorizer.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 
-@Service
-public class TransactionService {
+public abstract class TransactionService {
+
+    @Autowired
+    private AuthorizationService authorizationService;
 
     @Autowired
     private AccountBalanceService accountBalanceService;
 
-//    @Autowired
-//    private Map<String, TransactionProcessor> adapters;
-
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void processTransaction(TransactionInput transactionInput) {
+        try {
+            final var account = this.authorizationService.authorizeTransaction(transactionInput);
+            AccountBalance newAccount = account.debitAmount(transactionInput.getTotalAmount());
+            this.accountBalanceService.save(newAccount);
+            save(Transaction.create(transactionInput));
+        } catch (Exception e) {
+            throw new TransactionRejectedException();
+        }
+    }
+
+    public MccEnum getMcc(String mcc) {
+        return MccEnum.getMcc(mcc);
+    }
 
     public void save(Transaction transaction) {
         try {
@@ -29,4 +47,6 @@ public class TransactionService {
             throw new TransactionRejectedException();
         }
     }
+
+
 }

@@ -1,6 +1,5 @@
 package io.github.jairandersonsouza.authorizer.requests;
 
-import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
@@ -22,51 +21,42 @@ public class TransactionInput {
     @NotEmpty
     private String merchant;
 
+    private TransactionInput() {
+    }
+
+    private TransactionInput(String account, BigDecimal totalAmount, String mcc, String merchant) {
+        this.account = account;
+        this.totalAmount = totalAmount;
+        this.mcc = mcc;
+        this.merchant = merchant;
+    }
 
     public String getAccount() {
         return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
     }
 
     public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
     public String getMcc() {
         return mcc;
-    }
-
-    public void setMcc(String mcc) {
-        this.mcc = mcc;
     }
 
     public String getMerchant() {
         return merchant;
     }
 
-    public void setMerchant(String merchant) {
-        this.merchant = merchant;
-    }
-
     public boolean isMeal() {
         return this.mcc.equals("5811") || this.mcc.equals("5812");
     }
 
-    public void mccAsEnum() {
-        final var mccEnum = MccEnum.valueOf(this.mcc);
-
-    }
-
-
     public boolean isFood() {
         return this.mcc.equals("5411") || this.mcc.equals("5412");
+    }
+
+    public static TransactionInput create(String account, BigDecimal totalAmount, String mcc, String merchant) {
+        return new TransactionInput(account, totalAmount, mcc, merchant);
     }
 
     @Override

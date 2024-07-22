@@ -17,14 +17,18 @@ public class AccountBalanceService {
     private AccountBalanceRepository accountBalanceRepository;
 
 
-    @Transactional
-    public AccountBalance getValidAccount(TransactionInput transactionInput) {
-        final var account = getAccount(transactionInput);
-        if (!authorize(account, transactionInput)) {
-            throw new TransactionRejectedException();
-        }
-        return account;
+    public AccountBalance getAccount(TransactionInput transactionInput) {
+        return this.accountBalanceRepository.findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc())).orElseThrow(AccountNotExistsException::new);
     }
+
+//    @Transactional
+//    public AccountBalance getValidAccount(TransactionInput transactionInput) {
+//        final var account = getAccount(transactionInput);
+//        if (!authorize(account, transactionInput)) {
+//            throw new TransactionRejectedException();
+//        }
+//        return account;
+//    }
 
     public void save(AccountBalance account) {
         try {
@@ -34,12 +38,7 @@ public class AccountBalanceService {
         }
     }
 
-    private AccountBalance getAccount(TransactionInput transactionInput) {
-        return this.accountBalanceRepository.findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc())).orElseThrow(AccountNotExistsException::new);
-
-    }
-
-    private boolean authorize(AccountBalance account, TransactionInput transactionInput) {
-        return account.amountGteThan(transactionInput);
-    }
+//    private boolean authorize(AccountBalance account, TransactionInput transactionInput) {
+//        return account.amountGteThan(transactionInput);
+//    }
 }

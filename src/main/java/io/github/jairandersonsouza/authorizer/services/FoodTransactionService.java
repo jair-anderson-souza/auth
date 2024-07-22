@@ -1,11 +1,12 @@
-package io.github.jairandersonsouza.authorizer.processors;
+package io.github.jairandersonsouza.authorizer.services;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
+import io.github.jairandersonsouza.authorizer.processors.TransactionService;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import org.springframework.stereotype.Service;
 
 @Service("FOOD")
-public class FoodTransactionProcessor extends TransactionProcessor {
+public class FoodTransactionService extends TransactionService {
 
 
     @Override

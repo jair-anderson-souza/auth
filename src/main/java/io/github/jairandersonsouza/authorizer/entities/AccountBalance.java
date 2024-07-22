@@ -1,7 +1,6 @@
 package io.github.jairandersonsouza.authorizer.entities;
 
 
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -69,8 +68,8 @@ public final class AccountBalance implements Serializable {
         return new AccountBalance(this.id, this.accountId, balance, this.mcc, this.companyName);
     }
 
-    public boolean amountGteThan(TransactionInput transactionInput) {
-        return this.balance.compareTo(transactionInput.getTotalAmount()) >= 0;
+    public boolean amountGteThan(BigDecimal amount) {
+        return this.balance.compareTo(amount) >= 0;
     }
 
     public static AccountBalance create(String id, String accountId, BigDecimal balance, MccEnum mcc, String companyName) {

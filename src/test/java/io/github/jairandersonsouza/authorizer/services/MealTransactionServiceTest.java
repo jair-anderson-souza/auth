@@ -1,4 +1,4 @@
-package io.github.jairandersonsouza.authorizer.processors;
+package io.github.jairandersonsouza.authorizer.services;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import org.junit.jupiter.api.Test;
@@ -6,15 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static io.github.jairandersonsouza.authorizer.entities.MccEnum.CASH;
 import static io.github.jairandersonsouza.authorizer.entities.MccEnum.MEAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class MealPaymentProcessorTest {
+class MealTransactionServiceTest {
 
     @InjectMocks
-    private MealTransactionProcessor mealTransactionProcessor;
+    private MealTransactionService mealTransactionProcessor;
 
     @Test
     void testShouldGetMcc() {
@@ -22,5 +21,4 @@ class MealPaymentProcessorTest {
         assertEquals(MEAL, mcc);
 
     }
-
 }

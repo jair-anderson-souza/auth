@@ -2,6 +2,8 @@ package io.github.jairandersonsouza.authorizer.util;
 
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
+import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -20,5 +22,8 @@ public class AccountBalanceUtil {
 //        public static AccountBalance create(String id, BigDecimal balance, MccEnum mcc, String companyName) {
         return AccountBalance.create(ID, ID_ACCOUNT, new BigDecimal(500), MEAL, null);
     }
+
+
+
 }
 
