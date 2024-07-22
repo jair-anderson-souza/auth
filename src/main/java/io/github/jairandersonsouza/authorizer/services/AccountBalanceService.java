@@ -6,7 +6,6 @@ import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsExcepti
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.repository.AccountBalanceRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +20,6 @@ public class AccountBalanceService {
         return this.accountBalanceRepository.findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc())).orElseThrow(AccountNotExistsException::new);
     }
 
-//    @Transactional
-//    public AccountBalance getValidAccount(TransactionInput transactionInput) {
-//        final var account = getAccount(transactionInput);
-//        if (!authorize(account, transactionInput)) {
-//            throw new TransactionRejectedException();
-//        }
-//        return account;
-//    }
-
     public void save(AccountBalance account) {
         try {
             this.accountBalanceRepository.save(account);
@@ -38,7 +28,4 @@ public class AccountBalanceService {
         }
     }
 
-//    private boolean authorize(AccountBalance account, TransactionInput transactionInput) {
-//        return account.amountGteThan(transactionInput);
-//    }
 }

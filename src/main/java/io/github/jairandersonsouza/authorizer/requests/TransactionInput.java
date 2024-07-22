@@ -59,13 +59,4 @@ public class TransactionInput {
         return new TransactionInput(account, totalAmount, mcc, merchant);
     }
 
-    @Override
-    public String toString() {
-        return "TransactionInput{" +
-                "account='" + account + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", mcc='" + mcc + '\'' +
-                ", merchant='" + merchant + '\'' +
-                '}';
-    }
 }

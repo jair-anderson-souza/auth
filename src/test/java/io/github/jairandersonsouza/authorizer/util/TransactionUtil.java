@@ -6,17 +6,12 @@ import java.math.BigDecimal;
 
 public class TransactionUtil {
 
-    private String id;
-    private String idAccount;
-    private String idTransaction;
-    private TransactionInput transaction;
-
-
-    public TransactionInput makeTransaction() {
+    //TODO validar se todos os tests estão chamando esse cara
+    public static TransactionInput makeTransaction(String accountId, BigDecimal totalAmount, String mcc, String merchant) {
         return TransactionInput.create(
-                "1123",
-                new BigDecimal(100),
-                "5811",
-                "Google");
+                accountId,
+                totalAmount,
+                mcc,
+                merchant);
     }
 }

@@ -26,7 +26,7 @@ public class TransactionController {
     )
     public ResponseBuilder transaction(@RequestBody @Valid TransactionInput transactionInput) {
         final var transactionService = this.transactionServiceFactory.getProcessor(transactionInput);
-        transactionService.processTransaction(transactionInput);
+        transactionService.startTransaction(transactionInput);
         return ResponseBuilder.builder().code("00").build();
     }
 

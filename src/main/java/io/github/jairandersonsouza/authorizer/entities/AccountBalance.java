@@ -11,8 +11,6 @@ import java.util.Objects;
 @Table(name = "t_account_balance")
 public final class AccountBalance implements Serializable {
 
-    //TODO
-//    //id - UUID - gerar na aplicação, é mais rápido
     @Id
     @Column(name = "id")
     private String id;
@@ -89,14 +87,4 @@ public final class AccountBalance implements Serializable {
         return Objects.hashCode(id);
     }
 
-    @Override
-    public String toString() {
-        return "AccountBalance{" +
-                "id='" + id + '\'' +
-                ", accountId='" + accountId + '\'' +
-                ", balance=" + balance +
-                ", mcc=" + mcc +
-                ", companyName='" + companyName + '\'' +
-                '}';
-    }
 }

@@ -4,6 +4,8 @@ import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.util.AccountBalanceUtil;
+import io.github.jairandersonsouza.authorizer.util.TransactionUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class AuthorizationServiceTest {
+class BalanceAuthorizationServiceTest {
 
     @InjectMocks
     private BalanceAuthorizationService balanceAuthorizationService;
@@ -36,12 +38,12 @@ class AuthorizationServiceTest {
     @BeforeEach
     public void init() {
         this.id = UUID.randomUUID().toString();
-        this.transaction = TransactionInput.create("1123", new BigDecimal(100), "5811", "Google");
+        this.transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5811", "Google");
     }
 
     @Test
     void testShouldAuthorizeAndReturnsAnAccount() {
-        AccountBalance accountBalanceResponse = AccountBalance.create(UUID.randomUUID().toString(), transaction.getAccount(), transaction.getTotalAmount(), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), transaction.getTotalAmount(), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
         when(this.accountBalanceService.getAccount(any(TransactionInput.class))).thenReturn(accountBalanceResponse);
         final var accountResponse = this.balanceAuthorizationService.authorizeTransaction(transaction);
         ArgumentCaptor<TransactionInput> argumentCaptorTransaction = ArgumentCaptor.forClass(TransactionInput.class);
@@ -55,7 +57,8 @@ class AuthorizationServiceTest {
 
     @Test
     void testShouldUnauthorizeATransaction() {
-        AccountBalance accountBalanceResponse = AccountBalance.create(id, transaction.getAccount(), transaction.getTotalAmount().subtract(new BigDecimal(10)), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        //TODO sendo criado em todo lugar nessa classe
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(id, transaction.getAccount(), transaction.getTotalAmount().subtract(new BigDecimal(10)), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
         when(this.accountBalanceService.getAccount(any(TransactionInput.class))).thenReturn(accountBalanceResponse);
 
         final var exception = assertThrows(TransactionRejectedException.class, () -> this.balanceAuthorizationService.authorizeTransaction(transaction));

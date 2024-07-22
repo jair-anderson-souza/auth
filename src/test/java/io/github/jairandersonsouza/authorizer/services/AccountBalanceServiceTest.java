@@ -6,6 +6,8 @@ import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsExcepti
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.repository.AccountBalanceRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.util.AccountBalanceUtil;
+import io.github.jairandersonsouza.authorizer.util.TransactionUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,12 +38,12 @@ class AccountBalanceServiceTest {
 
     @BeforeEach
     public void init() {
-        this.transaction = TransactionInput.create("1123", new BigDecimal(100), "5811", "Google");
+        this.transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5811", "Google");
     }
 
     @Test
     void testShouldReturnsAValidAccount() {
-        AccountBalance accountBalanceResponse = AccountBalance.create(UUID.randomUUID().toString(), transaction.getAccount(), transaction.getTotalAmount(), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), transaction.getTotalAmount(), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
         when(this.accountBalanceRepository.findByAccountIdAndMcc(any(String.class), any(MccEnum.class))).thenReturn(Optional.of(accountBalanceResponse));
         final var accountResponse = this.accountBalanceService.getAccount(transaction);
         ArgumentCaptor<String> argumentCaptorAccountId = ArgumentCaptor.forClass(String.class);
@@ -70,7 +72,8 @@ class AccountBalanceServiceTest {
 
     @Test
     void testShouldSave() {
-        AccountBalance accountBalanceResponse = AccountBalance.create(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        //TODO sendo criado em todo lugar nessa classe
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
         when(this.accountBalanceRepository.save(any(AccountBalance.class))).thenReturn(accountBalanceResponse);
 
         this.accountBalanceService.save(accountBalanceResponse);
@@ -85,7 +88,7 @@ class AccountBalanceServiceTest {
 
     @Test
     void testShouldThrownAnExceptionForSaving() {
-        AccountBalance accountBalanceResponse = AccountBalance.create(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), null, transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), null, transaction.getMerchant());
         when(this.accountBalanceRepository.save(any(AccountBalance.class))).thenThrow(RuntimeException.class);
 
         final var exception = assertThrows(TransactionRejectedException.class, () -> this.accountBalanceService.save(accountBalanceResponse));

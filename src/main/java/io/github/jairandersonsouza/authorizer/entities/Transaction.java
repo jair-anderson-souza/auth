@@ -16,8 +16,6 @@ import java.util.UUID;
 @Table(name = "t_transaction")
 public final class Transaction implements Serializable {
 
-    //TODO
-    //id - UUID - gerar na aplicação, é mais rápido
     @Id
     private String id;
 
