@@ -11,3 +11,7 @@ public class AuthorizerApplication {
     }
 
 }
+
+
+//TODO
+//Add diagramas e discussão sobre o Lock
