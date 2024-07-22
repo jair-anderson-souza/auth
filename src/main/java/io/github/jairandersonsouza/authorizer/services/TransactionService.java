@@ -3,6 +3,7 @@ package io.github.jairandersonsouza.authorizer.services;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
+import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
@@ -29,7 +30,7 @@ public abstract class TransactionService {
             AccountBalance newAccount = account.debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(newAccount);
             save(Transaction.create(transactionInput));
-        } catch (Exception e) {
+        } catch (TransactionRejectedException e) {
             throw new TransactionRejectedException();
         }
     }

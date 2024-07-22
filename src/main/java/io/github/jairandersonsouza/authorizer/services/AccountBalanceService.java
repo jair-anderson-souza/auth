@@ -20,7 +20,9 @@ public class AccountBalanceService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public AccountBalance getAccount(TransactionInput transactionInput) {
-        return this.accountBalanceRepository.findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc())).orElseThrow(AccountNotExistsException::new);
+        return this.accountBalanceRepository
+                .findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc()))
+                .orElseThrow(AccountNotExistsException::new);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)

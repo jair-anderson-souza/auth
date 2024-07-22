@@ -14,11 +14,13 @@ class TransactionSimulation extends Simulation {
     val scenarioCreate = scenario("Create_New_Transaction")
       .feed(file)
       .exec(
-        http("transaction").post("/transaction").body(StringBody((""" { "account": "${account}", "totalAmount" : "${totalAmount}", "mcc" : "${mcc}" ,"merchant" : "${merchant}" } """)))
-      )
-
+        http("transaction").post("/transaction")
+          .body(StringBody((""" { "account": "${account}", "totalAmount" : "${totalAmount}", "mcc" : "${mcc}" ,"merchant" : "${merchant}" } """)))
+          .check(status.is(200),
+//            responseTimeInMillis.lte(100)
+          )
+    )
   }
-
 
   val httpProtocol = http.baseUrl("http://localhost:8181").header("Content-Type", "application/json")
 
@@ -28,11 +30,11 @@ class TransactionSimulation extends Simulation {
 
   setUp(
     requests.inject(
-//      constantConcurrentUsers(2).during(60.seconds), // 1
-      rampConcurrentUsers(1).to(1).during(60) // 2
-//      rampUsersPerSec(0).to(1000).during(1.minutes)
+      //      constantConcurrentUsers(2).during(60.seconds), // 1
+      rampConcurrentUsers(1).to(1).during(30) // 2
+      //      rampUsersPerSec(0).to(1000).during(1.minutes)
       //        constantConcurrentUsers(3).during(30.toSeconds)
-//      atOnceUsers(3)
+      //      atOnceUsers(3)
     ),
     //    users.inject(
     //      rampUsersPerSec(0).to(100).during(10.minutes)

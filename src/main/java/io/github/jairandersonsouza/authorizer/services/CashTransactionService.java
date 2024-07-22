@@ -9,7 +9,7 @@ public class CashTransactionService extends TransactionService {
 
     @Override
     public void startTransaction(TransactionInput transactionInput) {
-        super.startTransaction(TransactionInput.create(transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant(), transactionInput.getMerchant()));
+        super.startTransaction(transactionInput);
     }
 
     @Override

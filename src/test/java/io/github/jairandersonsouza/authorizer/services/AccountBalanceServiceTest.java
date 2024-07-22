@@ -38,7 +38,7 @@ class AccountBalanceServiceTest {
 
     @BeforeEach
     public void init() {
-        this.transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5811", "Google");
+        this.transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5811", "Google");
     }
 
     @Test
@@ -72,32 +72,36 @@ class AccountBalanceServiceTest {
 
     @Test
     void testShouldSave() {
-        //TODO sendo criado em todo lugar nessa classe
         AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
-        when(this.accountBalanceRepository.save(any(AccountBalance.class))).thenReturn(accountBalanceResponse);
+        doNothing().when(this.accountBalanceRepository).update(any(BigDecimal.class), any(String.class));
 
         this.accountBalanceService.save(accountBalanceResponse);
 
-        ArgumentCaptor<AccountBalance> argumentCaptorAccountBalance = ArgumentCaptor.forClass(AccountBalance.class);
+        ArgumentCaptor<BigDecimal> argumentCaptorAccountBalance = ArgumentCaptor.forClass(BigDecimal.class);
+        ArgumentCaptor<String> argumentCaptorAccountAccountId = ArgumentCaptor.forClass(String.class);
 
         verify(accountBalanceRepository, times(1))
-                .save(argumentCaptorAccountBalance.capture());
+                .update(argumentCaptorAccountBalance.capture(), argumentCaptorAccountAccountId.capture());
 
-        assertEquals(accountBalanceResponse, argumentCaptorAccountBalance.getValue());
+        assertEquals(accountBalanceResponse.getBalance(), argumentCaptorAccountBalance.getValue());
+        assertEquals(accountBalanceResponse.getAccountId(), argumentCaptorAccountAccountId.getValue());
     }
 
     @Test
     void testShouldThrownAnExceptionForSaving() {
         AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), null, transaction.getMerchant());
-        when(this.accountBalanceRepository.save(any(AccountBalance.class))).thenThrow(RuntimeException.class);
+        doThrow(RuntimeException.class).when(this.accountBalanceRepository).update(any(BigDecimal.class), any(String.class));
 
         final var exception = assertThrows(TransactionRejectedException.class, () -> this.accountBalanceService.save(accountBalanceResponse));
-        ArgumentCaptor<AccountBalance> argumentCaptorAccountBalance = ArgumentCaptor.forClass(AccountBalance.class);
+
+        ArgumentCaptor<BigDecimal> argumentCaptorAccountBalance = ArgumentCaptor.forClass(BigDecimal.class);
+        ArgumentCaptor<String> argumentCaptorAccountAccountId = ArgumentCaptor.forClass(String.class);
 
         verify(accountBalanceRepository, times(1))
-                .save(argumentCaptorAccountBalance.capture());
+                .update(argumentCaptorAccountBalance.capture(), argumentCaptorAccountAccountId.capture());
 
-        assertEquals(accountBalanceResponse, argumentCaptorAccountBalance.getValue());
+        assertEquals(accountBalanceResponse.getBalance(), argumentCaptorAccountBalance.getValue());
+        assertEquals(accountBalanceResponse.getAccountId(), argumentCaptorAccountAccountId.getValue());
         assertEquals("51", exception.getMessage());
 
     }

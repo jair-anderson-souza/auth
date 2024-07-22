@@ -39,15 +39,14 @@ class TransactionServiceFactoryTest {
 
     @Test
     void testShouldReturnsMealTransactionService() {
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5811", "Google");
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5811", "Google");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(MealTransactionService.class, processor);
     }
 
     @Test
-    void testShouldAlsoReturnsMealPaymentProcess() {
-//TODO sendo criado em todo lugar nessa classe
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5811", "Google");
+    void testShouldAlsoReturnsMealTransactionService() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5811", "Google");
 
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(MealTransactionService.class, processor);
@@ -55,29 +54,28 @@ class TransactionServiceFactoryTest {
 
     @Test
     void testShouldReturnsCashTransactionServiceBecauseTheMccIsInvalid() {
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5800", "Google");
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5800", "Google");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionService.class, processor);
     }
 
     @Test
-    void testShouldReturnsFoodPaymentProcess() {
-        //TODO remover duplicação
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5412", "Google");
+    void testShouldReturnsFoodTransactionService() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5412", "Google");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(FoodTransactionService.class, processor);
     }
 
     @Test
-    void testShouldAlsoReturnsFoodPaymentProcess() {
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5411", "Google");
+    void testShouldAlsoReturnsFoodTransactionService() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5411", "Google");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(FoodTransactionService.class, processor);
     }
 
     @Test
-    void testShouldAlsoReturnsCashPaymentProcessBecauseTheAmountIsInvalid() {
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5412", "Google");
+    void testShouldAlsoReturnsCashTransactionServiceBecauseTheAmountIsInvalid() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5412", "Google");
 
 
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
@@ -85,24 +83,74 @@ class TransactionServiceFactoryTest {
     }
 
     @Test
-    void testShouldAlsoReturnsCashPaymentProcessBecauseTheMccIsInvalid() {
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "3454", "Google");
+    void testShouldAlsoReturnsCashTransactionServiceBecauseTheMccIsInvalid() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "Google");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionService.class, processor);
     }
 
     @Test
-    void testShouldAlsoReturnsCashPaymentProcessBecauseTheMccIsAlsoInvalid() {
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "2234", "Google");
+    void testShouldAlsoReturnsCashTransactionServiceBecauseTheMccIsAlsoInvalid() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "2234", "Google");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionService.class, processor);
     }
 
     @Test
-    void testShouldReturnsCashPaymentProcessBecauseTheMccIsAlsoInvalid() {
-        var transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "3454", "Google");
+    void testShouldReturnsCashTransactionServiceBecauseTheMccIsAlsoInvalid() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "Google");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);
         assertInstanceOf(CashTransactionService.class, processor);
+    }
+
+    @Test
+    void testShouldReturnsMealTransactionServiceBecauseTheMccIsInvalidAndMerchantIsEats() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "UBER EATS                   SAO PAULO BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(MealTransactionService.class, processor);
+    }
+
+    @Test
+    void testShouldReturnsMealTransactionServiceBecauseTheMccIsInvalidAndMerchantIsIfood() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "IFOOD                   SAO PAULO BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(MealTransactionService.class, processor);
+    }
+
+    @Test
+    void testShouldReturnsCashTransactionServiceBecauseTheMccIsInvalidAndMerchantIsUberTrip() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "UBER TRIP                   SAO PAULO BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(CashTransactionService.class, processor);
+    }
+
+    @Test
+    void testShouldReturnsCashTransactionServiceBecauseTheMccIsInvalidAndMerchantIsPag() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "PAG*JoseDaSilva          RIO DE JANEI BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(CashTransactionService.class, processor);
+    }
+
+    @Test
+    void testShouldAlsoReturnsCashTransactionServiceBecauseTheMccIsInvalidAndMerchantIsBilheteUnico() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "PICPAY*BILHETEUNICO           GOIANIA BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(CashTransactionService.class, processor);
+    }
+
+    @Test
+    void testShouldReturnsFoodTransactionServiceBecauseTheMccIsInvalidAndMerchantIsHiper() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "HIPER           GOIANIA BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(FoodTransactionService.class, processor);
+    }
+
+
+    @Test
+    void testShouldReturnsFoodTransactionServiceBecauseTheMccIsInvalidAndMerchantIsExtra() {
+        var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "EXTRA*DAESQUINA           GOIANIA BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(FoodTransactionService.class, processor);
     }
 
 

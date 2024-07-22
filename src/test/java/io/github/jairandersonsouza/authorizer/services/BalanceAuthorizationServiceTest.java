@@ -38,7 +38,7 @@ class BalanceAuthorizationServiceTest {
     @BeforeEach
     public void init() {
         this.id = UUID.randomUUID().toString();
-        this.transaction = TransactionUtil.makeTransaction("1123", new BigDecimal(100), "5811", "Google");
+        this.transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5811", "Google");
     }
 
     @Test
@@ -56,8 +56,7 @@ class BalanceAuthorizationServiceTest {
     }
 
     @Test
-    void testShouldUnauthorizeATransaction() {
-        //TODO sendo criado em todo lugar nessa classe
+    void testShouldUnauthorizedATransaction() {
         AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(id, transaction.getAccount(), transaction.getTotalAmount().subtract(new BigDecimal(10)), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
         when(this.accountBalanceService.getAccount(any(TransactionInput.class))).thenReturn(accountBalanceResponse);
 

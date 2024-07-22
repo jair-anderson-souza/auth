@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 public class TransactionInput {
 
@@ -20,6 +22,9 @@ public class TransactionInput {
 
     @NotEmpty
     private String merchant;
+
+    public static List<String> VALID_FOODS = List.of("HIPER", "EXTRA");
+    public static List<String> VALID_MEALS = List.of("EATS", "IFOOD");
 
     private TransactionInput() {
     }
@@ -48,11 +53,15 @@ public class TransactionInput {
     }
 
     public boolean isMeal() {
-        return this.mcc.equals("5811") || this.mcc.equals("5812");
+        return validateMcc(VALID_MEALS) || (this.mcc.equals("5811") || this.mcc.equals("5812"));
     }
 
     public boolean isFood() {
-        return this.mcc.equals("5411") || this.mcc.equals("5412");
+        return validateMcc(VALID_FOODS) || (this.mcc.equals("5411") || this.mcc.equals("5412"));
+    }
+
+    public boolean validateMcc(List<String> mccs) {
+        return mccs.stream().anyMatch((value) -> this.merchant.toLowerCase().contains(value.toLowerCase()));
     }
 
     public static TransactionInput create(String account, BigDecimal totalAmount, String mcc, String merchant) {
