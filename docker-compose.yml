@@ -9,6 +9,11 @@ services:
       - SPRING_PROFILES_ACTIVE=postgres
     ports:
       - "8181:8181"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: '2048MB'
     depends_on:
       - db
   db:
@@ -23,6 +28,16 @@ services:
       - "5432:5432"
     volumes:
       - ./src/main/resources:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: '2024MB'
 
 # O uso do modo `bridge` deve ser adequado à carga que será usada no teste.
 # A edição anterior se beneficiou do modo host pois o volume de requisições
