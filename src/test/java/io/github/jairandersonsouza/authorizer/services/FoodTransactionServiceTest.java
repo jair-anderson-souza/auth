@@ -19,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static io.github.jairandersonsouza.authorizer.entities.MccEnum.CASH;
 import static io.github.jairandersonsouza.authorizer.entities.MccEnum.FOOD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -120,6 +119,37 @@ class FoodTransactionServiceTest {
         assertEquals(transactionInput, argumentCaptorTransactionInput.getValue());
         assertInstanceOf(AccountNotExistsException.class, exception);
     }
+
+    @Test
+    void testShouldSaveTransaction() {
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), FOOD.name(), "Google"));
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
+        this.foodTransactionService.save(transaction);
+        final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
+
+        verify(transactionRepository, times(1))
+                .save(argumentCaptorTransaction.capture());
+        assertEquals(transaction, argumentCaptorTransaction.getValue());
+    }
+
+    @Test
+    void testShouldThrownAnExceptionWhenSaveTransaction() {
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), FOOD.name(), "Google"));
+        when(transactionRepository.save(any(Transaction.class))).thenThrow(RuntimeException.class);
+
+        final var exception = assertThrows(TransactionRejectedException.class, () -> {
+            this.foodTransactionService.save(transaction);
+        });
+
+        final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
+
+        verify(transactionRepository, times(1))
+                .save(argumentCaptorTransaction.capture());
+
+        assertEquals("51", exception.getMessage());
+        assertEquals(transaction, argumentCaptorTransaction.getValue());
+    }
+
     @Test
     void testShouldGetMcc() {
         String mcc = this.foodTransactionService.getMcc();

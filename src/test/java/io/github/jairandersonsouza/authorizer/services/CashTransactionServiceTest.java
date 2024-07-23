@@ -123,6 +123,36 @@ class CashTransactionServiceTest {
     }
 
     @Test
+    void testShouldSaveTransaction() {
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), CASH.name(), "Google"));
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
+        this.cashTransactionService.save(transaction);
+        final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
+
+        verify(transactionRepository, times(1))
+                .save(argumentCaptorTransaction.capture());
+        assertEquals(transaction, argumentCaptorTransaction.getValue());
+    }
+
+    @Test
+    void testShouldThrownAnExceptionWhenSaveTransaction() {
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), CASH.name(), "Google"));
+        when(transactionRepository.save(any(Transaction.class))).thenThrow(RuntimeException.class);
+
+        final var exception = assertThrows(TransactionRejectedException.class, () -> {
+            this.cashTransactionService.save(transaction);
+        });
+
+        final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
+
+        verify(transactionRepository, times(1))
+                .save(argumentCaptorTransaction.capture());
+
+        assertEquals("51", exception.getMessage());
+        assertEquals(transaction, argumentCaptorTransaction.getValue());
+    }
+
+    @Test
     void testShouldGetMcc() {
         String mcc = this.cashTransactionService.getMcc();
         assertEquals(CASH.name(), mcc);

@@ -19,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static io.github.jairandersonsouza.authorizer.entities.MccEnum.CASH;
 import static io.github.jairandersonsouza.authorizer.entities.MccEnum.MEAL;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,7 +46,7 @@ class MealTransactionServiceTest {
     void testShouldProcessMealPayment() {
         var transactionInput = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google");
         var transaction = TransactionUtil.makeTransaction(transactionInput);
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), MccEnum.FOOD, transactionInput.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), MccEnum.MEAL, transactionInput.getMerchant());
 
         when(authorizationService.authorizeTransaction(any(TransactionInput.class))).thenReturn(accountBalanceResponse);
         doNothing().when(accountBalanceService).save(any(AccountBalance.class));
@@ -122,6 +121,36 @@ class MealTransactionServiceTest {
         assertInstanceOf(AccountNotExistsException.class, exception);
     }
 
+
+    @Test
+    void testShouldSaveTransaction() {
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google"));
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
+        this.mealTransactionService.save(transaction);
+        final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
+
+        verify(transactionRepository, times(1))
+                .save(argumentCaptorTransaction.capture());
+        assertEquals(transaction, argumentCaptorTransaction.getValue());
+    }
+
+    @Test
+    void testShouldThrownAnExceptionWhenSaveTransaction() {
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google"));
+        when(transactionRepository.save(any(Transaction.class))).thenThrow(RuntimeException.class);
+
+        final var exception = assertThrows(TransactionRejectedException.class, () -> {
+            this.mealTransactionService.save(transaction);
+        });
+
+        final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
+
+        verify(transactionRepository, times(1))
+                .save(argumentCaptorTransaction.capture());
+
+        assertEquals("51", exception.getMessage());
+        assertEquals(transaction, argumentCaptorTransaction.getValue());
+    }
 
     @Test
     void testShouldGetMcc() {
