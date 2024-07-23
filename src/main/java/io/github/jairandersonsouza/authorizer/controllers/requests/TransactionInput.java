@@ -1,26 +1,25 @@
-package io.github.jairandersonsouza.authorizer.requests;
+package io.github.jairandersonsouza.authorizer.controllers.requests;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 public class TransactionInput {
 
-    @NotEmpty
+    @NotBlank
     private String account;
 
     @DecimalMin(value = "0.00", inclusive = false)
     @Digits(integer = 10, fraction = 2)
     private BigDecimal totalAmount;
 
-    @NotEmpty
+    @NotBlank
     private String mcc;
 
-    @NotEmpty
+    @NotBlank
     private String merchant;
 
     public static List<String> VALID_FOODS = List.of("HIPER", "EXTRA");

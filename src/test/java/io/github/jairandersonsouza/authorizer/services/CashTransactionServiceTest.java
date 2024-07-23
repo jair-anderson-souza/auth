@@ -1,8 +1,7 @@
 package io.github.jairandersonsouza.authorizer.services;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
-import io.github.jairandersonsouza.authorizer.repository.TransactionRepository;
-import org.junit.jupiter.api.BeforeEach;
+import io.github.jairandersonsouza.authorizer.repositories.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

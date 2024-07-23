@@ -1,6 +1,6 @@
 package io.github.jairandersonsouza.authorizer.entities;
 
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

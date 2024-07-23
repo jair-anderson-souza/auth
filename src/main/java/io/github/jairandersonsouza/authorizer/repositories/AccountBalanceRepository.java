@@ -1,4 +1,4 @@
-package io.github.jairandersonsouza.authorizer.repository;
+package io.github.jairandersonsouza.authorizer.repositories;
 
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;

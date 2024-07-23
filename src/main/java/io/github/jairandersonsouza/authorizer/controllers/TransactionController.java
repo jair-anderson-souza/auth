@@ -2,7 +2,7 @@ package io.github.jairandersonsouza.authorizer.controllers;
 
 import io.github.jairandersonsouza.authorizer.factories.TransactionServiceFactory;
 import io.github.jairandersonsouza.authorizer.interceptors.ResponseBuilder;
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

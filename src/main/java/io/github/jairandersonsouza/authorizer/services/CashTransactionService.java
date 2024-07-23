@@ -1,7 +1,7 @@
 package io.github.jairandersonsouza.authorizer.services;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 import org.springframework.stereotype.Service;
 
 @Service("CASH")

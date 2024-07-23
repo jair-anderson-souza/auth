@@ -1,4 +1,4 @@
- package io.github.jairandersonsouza.authorizer.repository;
+ package io.github.jairandersonsouza.authorizer.repositories;
 
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;

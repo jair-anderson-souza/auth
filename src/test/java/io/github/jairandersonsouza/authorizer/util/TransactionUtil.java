@@ -1,7 +1,7 @@
 package io.github.jairandersonsouza.authorizer.util;
 
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 
 import java.math.BigDecimal;
 

@@ -3,7 +3,7 @@ package io.github.jairandersonsouza.authorizer.services;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.util.AccountBalanceUtil;
 import io.github.jairandersonsouza.authorizer.util.TransactionUtil;
 import org.junit.jupiter.api.BeforeEach;

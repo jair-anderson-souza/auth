@@ -1,13 +1,12 @@
 package io.github.jairandersonsouza.authorizer.factories;
 
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
-import io.github.jairandersonsouza.authorizer.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 
 import io.github.jairandersonsouza.authorizer.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Map;
 
 @Service
