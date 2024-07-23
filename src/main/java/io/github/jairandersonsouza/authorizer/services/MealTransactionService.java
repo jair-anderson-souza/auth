@@ -9,12 +9,12 @@ public class MealTransactionService extends TransactionService {
 
     @Override
     public void startTransaction(TransactionInput transactionInput) {
-        super.startTransaction(transactionInput);
+        super.startTransaction(TransactionInput.create(transactionInput.getAccount(), transactionInput.getTotalAmount(), getMcc(), transactionInput.getMerchant()));
     }
 
     @Override
-    public MccEnum getMcc(String mcc) {
-        return MccEnum.MEAL;
+    public String getMcc() {
+        return MccEnum.MEAL.name();
     }
 
 

@@ -20,6 +20,6 @@ public interface AccountBalanceRepository extends JpaRepository<AccountBalance, 
     Optional<AccountBalance> findByAccountIdAndMcc(String id, MccEnum mcc);
 
     @Modifying
-    @Query(value = "UPDATE t_account_balance SET balance = :balance WHERE account_id = :accountId", nativeQuery = true)
-    void update(BigDecimal balance, String accountId);
+    @Query(value = "UPDATE t_account_balance SET balance = :balance WHERE id = :id", nativeQuery = true)
+    void update(BigDecimal balance, String id);
 }

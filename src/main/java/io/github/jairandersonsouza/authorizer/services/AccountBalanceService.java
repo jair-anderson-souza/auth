@@ -21,14 +21,14 @@ public class AccountBalanceService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public AccountBalance getAccount(TransactionInput transactionInput) {
         return this.accountBalanceRepository
-                .findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.getMcc(transactionInput.getMcc()))
+                .findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.valueOf(transactionInput.getMcc()))
                 .orElseThrow(AccountNotExistsException::new);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void save(AccountBalance account) {
         try {
-            this.accountBalanceRepository.update(account.getBalance(), account.getAccountId());
+            this.accountBalanceRepository.update(account.getBalance(), account.getId());
         } catch (Exception e) {
             throw new TransactionRejectedException();
         }
