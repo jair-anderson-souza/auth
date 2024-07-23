@@ -34,18 +34,18 @@ class AccountBalanceServiceTest {
     @Mock
     private AccountBalanceRepository accountBalanceRepository;
 
-    private TransactionInput transaction;
+    private TransactionInput transactionInput;
 
     @BeforeEach
     public void init() {
-        this.transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5811", "Google");
+        this.transactionInput = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MccEnum.FOOD.name(), "Google");
     }
 
     @Test
     void testShouldReturnsAValidAccount() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), transaction.getTotalAmount(), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), MccEnum.FOOD, transactionInput.getMerchant());
         when(this.accountBalanceRepository.findByAccountIdAndMcc(any(String.class), any(MccEnum.class))).thenReturn(Optional.of(accountBalanceResponse));
-        final var accountResponse = this.accountBalanceService.getAccount(transaction);
+        final var accountResponse = this.accountBalanceService.getAccount(transactionInput);
         ArgumentCaptor<String> argumentCaptorAccountId = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MccEnum> argumentCaptorMcc = ArgumentCaptor.forClass(MccEnum.class);
         verify(accountBalanceRepository, times(1))
@@ -60,7 +60,7 @@ class AccountBalanceServiceTest {
     void testShouldThrownAccountNotExistsException() {
 
         when(this.accountBalanceRepository.findByAccountIdAndMcc(any(String.class), any(MccEnum.class))).thenReturn(Optional.empty());
-        final var exception = assertThrows(AccountNotExistsException.class, () -> this.accountBalanceService.getAccount(transaction));
+        final var exception = assertThrows(AccountNotExistsException.class, () -> this.accountBalanceService.getAccount(transactionInput));
 
         ArgumentCaptor<String> argumentCaptorAccountId = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MccEnum> argumentCaptorMcc = ArgumentCaptor.forClass(MccEnum.class);
@@ -72,7 +72,7 @@ class AccountBalanceServiceTest {
 
     @Test
     void testShouldSave() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), new BigDecimal(10), MccEnum.FOOD, transactionInput.getMerchant());
         doNothing().when(this.accountBalanceRepository).update(any(BigDecimal.class), any(String.class));
 
         this.accountBalanceService.save(accountBalanceResponse);
@@ -84,12 +84,12 @@ class AccountBalanceServiceTest {
                 .update(argumentCaptorAccountBalance.capture(), argumentCaptorAccountAccountId.capture());
 
         assertEquals(accountBalanceResponse.getBalance(), argumentCaptorAccountBalance.getValue());
-        assertEquals(accountBalanceResponse.getAccountId(), argumentCaptorAccountAccountId.getValue());
+        assertEquals(accountBalanceResponse.getId(), argumentCaptorAccountAccountId.getValue());
     }
 
     @Test
     void testShouldThrownAnExceptionForSaving() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), new BigDecimal(10), null, transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), new BigDecimal(10), null, transactionInput.getMerchant());
         doThrow(RuntimeException.class).when(this.accountBalanceRepository).update(any(BigDecimal.class), any(String.class));
 
         final var exception = assertThrows(TransactionRejectedException.class, () -> this.accountBalanceService.save(accountBalanceResponse));
@@ -101,7 +101,7 @@ class AccountBalanceServiceTest {
                 .update(argumentCaptorAccountBalance.capture(), argumentCaptorAccountAccountId.capture());
 
         assertEquals(accountBalanceResponse.getBalance(), argumentCaptorAccountBalance.getValue());
-        assertEquals(accountBalanceResponse.getAccountId(), argumentCaptorAccountAccountId.getValue());
+        assertEquals(accountBalanceResponse.getId(), argumentCaptorAccountAccountId.getValue());
         assertEquals("51", exception.getMessage());
 
     }

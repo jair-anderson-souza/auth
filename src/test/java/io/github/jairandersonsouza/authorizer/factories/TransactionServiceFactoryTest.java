@@ -104,6 +104,13 @@ class TransactionServiceFactoryTest {
     }
 
     @Test
+    void testShould() {
+        var transaction = TransactionUtil.makeTransactionInput("026b36f0-8454-4af4-b223-f94fa6bc3568", new BigDecimal(1), "2568", "UBER EATS                   SAO PAULO BR ");
+        final var processor = this.transactionServiceFactory.getProcessor(transaction);
+        assertInstanceOf(MealTransactionService.class, processor);
+    }
+
+    @Test
     void testShouldReturnsMealTransactionServiceBecauseTheMccIsInvalidAndMerchantIsEats() {
         var transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "3454", "UBER EATS                   SAO PAULO BR ");
         final var processor = this.transactionServiceFactory.getProcessor(transaction);

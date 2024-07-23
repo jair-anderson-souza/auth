@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 public class TransactionInput {
 
@@ -67,4 +68,16 @@ public class TransactionInput {
         return new TransactionInput(account, totalAmount, mcc, merchant);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransactionInput that = (TransactionInput) o;
+        return Objects.equals(account, that.account) && Objects.equals(totalAmount, that.totalAmount) && Objects.equals(mcc, that.mcc) && Objects.equals(merchant, that.merchant);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(account, totalAmount, mcc, merchant);
+    }
 }

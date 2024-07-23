@@ -38,12 +38,12 @@ class BalanceAuthorizationServiceTest {
     @BeforeEach
     public void init() {
         this.id = UUID.randomUUID().toString();
-        this.transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), "5811", "Google");
+        this.transaction = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MccEnum.CASH.name(), "Google");
     }
 
     @Test
     void testShouldAuthorizeAndReturnsAnAccount() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), transaction.getTotalAmount(), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transaction.getAccount(), transaction.getTotalAmount(), MccEnum.valueOf(transaction.getMcc()), transaction.getMerchant());
         when(this.accountBalanceService.getAccount(any(TransactionInput.class))).thenReturn(accountBalanceResponse);
         final var accountResponse = this.balanceAuthorizationService.authorizeTransaction(transaction);
         ArgumentCaptor<TransactionInput> argumentCaptorTransaction = ArgumentCaptor.forClass(TransactionInput.class);
@@ -57,7 +57,7 @@ class BalanceAuthorizationServiceTest {
 
     @Test
     void testShouldUnauthorizedATransaction() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(id, transaction.getAccount(), transaction.getTotalAmount().subtract(new BigDecimal(10)), MccEnum.getMcc(transaction.getMcc()), transaction.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(id, transaction.getAccount(), transaction.getTotalAmount().subtract(new BigDecimal(10)), MccEnum.valueOf(transaction.getMcc()), transaction.getMerchant());
         when(this.accountBalanceService.getAccount(any(TransactionInput.class))).thenReturn(accountBalanceResponse);
 
         final var exception = assertThrows(TransactionRejectedException.class, () -> this.balanceAuthorizationService.authorizeTransaction(transaction));
