@@ -4,6 +4,7 @@ import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
+import io.github.jairandersonsouza.authorizer.factories.TransactionDTOFactory;
 import io.github.jairandersonsouza.authorizer.repositories.TransactionRepository;
 import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public abstract class TransactionService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void startTransaction(TransactionInput transactionInput) {
         try {
-            final var transactionDTO = TransactionDTO.create(transactionInput);
+            final var transactionDTO = TransactionDTOFactory.createDTO(transactionInput);
             AccountBalance newAccount = getAccount(transactionDTO).debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(newAccount);
             save(Transaction.create(transactionDTO));

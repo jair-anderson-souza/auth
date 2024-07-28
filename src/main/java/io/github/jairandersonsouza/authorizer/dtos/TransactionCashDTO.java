@@ -6,13 +6,13 @@ import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class TransactionMealDTO extends TransactionDTO {
+public class TransactionCashDTO extends TransactionDTO {
 
     private String mcc;
 
-    private TransactionMealDTO(String account, BigDecimal totalAmount, String mcc, String merchant) {
+    private TransactionCashDTO(String account, BigDecimal totalAmount, String mcc, String merchant) {
         super(account, totalAmount, merchant);
-        this.mcc = MccEnum.MEAL.name();
+        this.mcc = MccEnum.CASH.name();
 
     }
 
@@ -32,8 +32,8 @@ public class TransactionMealDTO extends TransactionDTO {
 //        return merchant;
 //    }
 
-    public static TransactionMealDTO create(TransactionInput transactionInput) {
-        return new TransactionMealDTO(
+    public static TransactionCashDTO create(TransactionInput transactionInput) {
+        return new TransactionCashDTO(
                 transactionInput.getAccount(),
                 transactionInput.getTotalAmount(),
                 transactionInput.getMcc(),
@@ -47,7 +47,7 @@ public class TransactionMealDTO extends TransactionDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        TransactionMealDTO that = (TransactionMealDTO) o;
+        TransactionCashDTO that = (TransactionCashDTO) o;
         return Objects.equals(mcc, that.mcc);
     }
 

@@ -1,20 +1,18 @@
 package io.github.jairandersonsouza.authorizer.dtos;
 
-import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class TransactionDTO {
+public abstract class TransactionDTO {
 
     private String account;
     private BigDecimal totalAmount;
-    private String mcc;
     private String merchant;
 
-    protected TransactionDTO(String account, BigDecimal totalAmount, String mcc, String merchant) {
+    protected TransactionDTO(String account, BigDecimal totalAmount, String merchant) {
         this.account = account;
         this.totalAmount = totalAmount;
-        this.mcc = mcc;
         this.merchant = merchant;
     }
 
@@ -26,23 +24,11 @@ public class TransactionDTO {
         return totalAmount;
     }
 
-    public String getMcc() {
-        return mcc;
-    }
-
     public String getMerchant() {
         return merchant;
     }
 
-    public static TransactionDTO create(TransactionInput transactionInput) {
-        return new TransactionDTO(
-                transactionInput.getAccount(),
-                transactionInput.getTotalAmount(),
-                transactionInput.getMcc(),
-                transactionInput.getMerchant()
-
-        );
-    }
+    public abstract String getMcc();
 
     @Override
     public boolean equals(Object o) {
