@@ -11,7 +11,7 @@ public class TransactionDTO {
     private String mcc;
     private String merchant;
 
-    private TransactionDTO(String account, BigDecimal totalAmount, String mcc, String merchant) {
+    protected TransactionDTO(String account, BigDecimal totalAmount, String mcc, String merchant) {
         this.account = account;
         this.totalAmount = totalAmount;
         this.mcc = mcc;
@@ -49,11 +49,11 @@ public class TransactionDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TransactionDTO that = (TransactionDTO) o;
-        return Objects.equals(account, that.account) && Objects.equals(totalAmount, that.totalAmount) && Objects.equals(mcc, that.mcc) && Objects.equals(merchant, that.merchant);
+        return Objects.equals(account, that.account) && Objects.equals(totalAmount, that.totalAmount) && Objects.equals(merchant, that.merchant);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account, totalAmount, mcc, merchant);
+        return Objects.hash(account, totalAmount, merchant);
     }
 }
