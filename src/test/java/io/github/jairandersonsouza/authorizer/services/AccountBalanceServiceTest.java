@@ -1,11 +1,11 @@
 package io.github.jairandersonsouza.authorizer.services;
 
+import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
 import io.github.jairandersonsouza.authorizer.repositories.AccountBalanceRepository;
-import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
 import io.github.jairandersonsouza.authorizer.util.AccountBalanceUtil;
 import io.github.jairandersonsouza.authorizer.util.TransactionUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,18 +34,18 @@ class AccountBalanceServiceTest {
     @Mock
     private AccountBalanceRepository accountBalanceRepository;
 
-    private TransactionInput transactionInput;
+    private TransactionDTO transactionDTO;
 
     @BeforeEach
     public void init() {
-        this.transactionInput = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MccEnum.FOOD.name(), "Google");
+        this.transactionDTO = TransactionUtil.makeTransactionDTO("1123", new BigDecimal(100), MccEnum.FOOD.name(), "Google");
     }
 
     @Test
     void testShouldReturnsAValidAccount() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), MccEnum.FOOD, transactionInput.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionDTO.getAccount(), transactionDTO.getTotalAmount(), MccEnum.FOOD, transactionDTO.getMerchant());
         when(this.accountBalanceRepository.findByAccountIdAndMcc(any(String.class), any(MccEnum.class))).thenReturn(Optional.of(accountBalanceResponse));
-        final var accountResponse = this.accountBalanceService.getAccount(transactionInput);
+        final var accountResponse = this.accountBalanceService.getAccount(transactionDTO);
         ArgumentCaptor<String> argumentCaptorAccountId = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MccEnum> argumentCaptorMcc = ArgumentCaptor.forClass(MccEnum.class);
         verify(accountBalanceRepository, times(1))
@@ -60,7 +60,7 @@ class AccountBalanceServiceTest {
     void testShouldThrownAccountNotExistsException() {
 
         when(this.accountBalanceRepository.findByAccountIdAndMcc(any(String.class), any(MccEnum.class))).thenReturn(Optional.empty());
-        final var exception = assertThrows(AccountNotExistsException.class, () -> this.accountBalanceService.getAccount(transactionInput));
+        final var exception = assertThrows(AccountNotExistsException.class, () -> this.accountBalanceService.getAccount(transactionDTO));
 
         ArgumentCaptor<String> argumentCaptorAccountId = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MccEnum> argumentCaptorMcc = ArgumentCaptor.forClass(MccEnum.class);
@@ -72,7 +72,7 @@ class AccountBalanceServiceTest {
 
     @Test
     void testShouldSave() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), new BigDecimal(10), MccEnum.FOOD, transactionInput.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionDTO.getAccount(), new BigDecimal(10), MccEnum.FOOD, transactionDTO.getMerchant());
         doNothing().when(this.accountBalanceRepository).update(any(BigDecimal.class), any(String.class));
 
         this.accountBalanceService.save(accountBalanceResponse);
@@ -89,7 +89,7 @@ class AccountBalanceServiceTest {
 
     @Test
     void testShouldThrownAnExceptionForSaving() {
-        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), new BigDecimal(10), null, transactionInput.getMerchant());
+        AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionDTO.getAccount(), new BigDecimal(10), null, transactionDTO.getMerchant());
         doThrow(RuntimeException.class).when(this.accountBalanceRepository).update(any(BigDecimal.class), any(String.class));
 
         final var exception = assertThrows(TransactionRejectedException.class, () -> this.accountBalanceService.save(accountBalanceResponse));

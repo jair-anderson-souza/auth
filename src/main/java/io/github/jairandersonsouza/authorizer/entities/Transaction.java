@@ -1,6 +1,7 @@
 package io.github.jairandersonsouza.authorizer.entities;
 
 import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -62,8 +63,8 @@ public final class Transaction implements Serializable {
         return mcc;
     }
 
-    public static Transaction create(TransactionInput transactionInput) {
-        return new Transaction(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant(), transactionInput.getMcc());
+    public static Transaction create(TransactionDTO transactionDTO) {
+        return new Transaction(UUID.randomUUID().toString(), transactionDTO.getAccount(), transactionDTO.getTotalAmount(), transactionDTO.getMerchant(), transactionDTO.getMcc());
     }
 
     @Override

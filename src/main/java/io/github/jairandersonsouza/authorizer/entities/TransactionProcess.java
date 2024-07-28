@@ -1,6 +1,7 @@
 package io.github.jairandersonsouza.authorizer.entities;
 
 import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
 
 import java.math.BigDecimal;
 
@@ -34,7 +35,7 @@ public class TransactionProcess {
         return this.transactionBalance.compareTo(this.currentAccountBalance) <= 0;
     }
 
-    public static TransactionProcess create(TransactionInput transactionInput, AccountBalance account) {
-        return new TransactionProcess(transactionInput.getTotalAmount(), account.getBalance(), account);
+    public static TransactionProcess create(TransactionDTO transactionDTO, AccountBalance account) {
+        return new TransactionProcess(transactionDTO.getTotalAmount(), account.getBalance(), account);
     }
 }

@@ -1,5 +1,6 @@
 package io.github.jairandersonsouza.authorizer.services;
 
+import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.exceptions.AccountNotExistsException;
@@ -19,9 +20,9 @@ public class AccountBalanceService {
 
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public AccountBalance getAccount(TransactionInput transactionInput) {
+    public AccountBalance getAccount(TransactionDTO transactionDTO) {
         return this.accountBalanceRepository
-                .findByAccountIdAndMcc(transactionInput.getAccount(), MccEnum.valueOf(transactionInput.getMcc()))
+                .findByAccountIdAndMcc(transactionDTO.getAccount(), MccEnum.valueOf(transactionDTO.getMcc()))
                 .orElseThrow(AccountNotExistsException::new);
     }
 

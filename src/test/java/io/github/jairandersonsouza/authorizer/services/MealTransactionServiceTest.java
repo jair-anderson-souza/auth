@@ -1,6 +1,7 @@
 package io.github.jairandersonsouza.authorizer.services;
 
 import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
+import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.MccEnum;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
@@ -45,26 +46,27 @@ class MealTransactionServiceTest {
     @Test
     void testShouldProcessMealPayment() {
         var transactionInput = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google");
-        var transaction = TransactionUtil.makeTransaction(transactionInput);
+        var transactionDTO = TransactionUtil.makeTransactionDTO("1123", new BigDecimal(100), MEAL.name(), "Google");
+        var transaction = TransactionUtil.makeTransaction(transactionDTO);
         AccountBalance accountBalanceResponse = AccountBalanceUtil.makeAccountBalance(UUID.randomUUID().toString(), transactionInput.getAccount(), transactionInput.getTotalAmount(), MccEnum.MEAL, transactionInput.getMerchant());
 
-        when(authorizationService.authorizeTransaction(any(TransactionInput.class))).thenReturn(accountBalanceResponse);
+        when(authorizationService.authorizeTransaction(any(TransactionDTO.class))).thenReturn(accountBalanceResponse);
         doNothing().when(accountBalanceService).save(any(AccountBalance.class));
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
 
         this.mealTransactionService.startTransaction(transactionInput);
-        final ArgumentCaptor<TransactionInput> argumentCaptorTransactionInput = ArgumentCaptor.forClass(TransactionInput.class);
+        final ArgumentCaptor<TransactionDTO> argumentCaptorTransactionDTO = ArgumentCaptor.forClass(TransactionDTO.class);
         final ArgumentCaptor<AccountBalance> argumentCaptorSaveAccountBalance = ArgumentCaptor.forClass(AccountBalance.class);
         final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
 
         verify(authorizationService)
-                .authorizeTransaction(argumentCaptorTransactionInput.capture());
+                .authorizeTransaction(argumentCaptorTransactionDTO.capture());
         verify(accountBalanceService)
                 .save(argumentCaptorSaveAccountBalance.capture());
         verify(transactionRepository)
                 .save(argumentCaptorTransaction.capture());
 
-        assertEquals(transactionInput, argumentCaptorTransactionInput.getValue());
+        assertEquals(transactionDTO, argumentCaptorTransactionDTO.getValue());
 
         assertEquals(accountBalanceResponse, argumentCaptorSaveAccountBalance.getValue());
         assertEquals(transaction.getAmount(), argumentCaptorTransaction.getValue().getAmount());
@@ -73,26 +75,27 @@ class MealTransactionServiceTest {
     @Test
     void testShouldThrownAnTransactionRejected() {
         var transactionInput = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google");
+        var transactionDTO = TransactionUtil.makeTransactionDTO("1123", new BigDecimal(100), MEAL.name(), "Google");
 
-        when(authorizationService.authorizeTransaction(any(TransactionInput.class))).thenThrow(TransactionRejectedException.class);
+        when(authorizationService.authorizeTransaction(any(TransactionDTO.class))).thenThrow(TransactionRejectedException.class);
 
         var exception = assertThrows(TransactionRejectedException.class, () -> {
             this.mealTransactionService.startTransaction(transactionInput);
         });
 
-        final ArgumentCaptor<TransactionInput> argumentCaptorTransactionInput = ArgumentCaptor.forClass(TransactionInput.class);
+        final ArgumentCaptor<TransactionDTO> argumentCaptorTransactionDTO = ArgumentCaptor.forClass(TransactionDTO.class);
         final ArgumentCaptor<AccountBalance> argumentCaptorSaveAccountBalance = ArgumentCaptor.forClass(AccountBalance.class);
         final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
 
         verify(authorizationService, times(1))
-                .authorizeTransaction(argumentCaptorTransactionInput.capture());
+                .authorizeTransaction(argumentCaptorTransactionDTO.capture());
 
         verify(accountBalanceService, times(0))
                 .save(argumentCaptorSaveAccountBalance.capture());
         verify(transactionRepository, times(0))
                 .save(argumentCaptorTransaction.capture());
 
-        assertEquals(transactionInput, argumentCaptorTransactionInput.getValue());
+        assertEquals(transactionDTO, argumentCaptorTransactionDTO.getValue());
         assertEquals("51", exception.getMessage());
         assertInstanceOf(TransactionRejectedException.class, exception);
     }
@@ -100,31 +103,32 @@ class MealTransactionServiceTest {
     @Test
     void testShouldThrownAnExceptionAccountNotExists() {
         var transactionInput = TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google");
+        var transactionDTO = TransactionUtil.makeTransactionDTO("1123", new BigDecimal(100), MEAL.name(), "Google");
 
-        when(authorizationService.authorizeTransaction(any(TransactionInput.class))).thenThrow(AccountNotExistsException.class);
+        when(authorizationService.authorizeTransaction(any(TransactionDTO.class))).thenThrow(AccountNotExistsException.class);
 
         var exception = assertThrows(AccountNotExistsException.class, () -> {
             this.mealTransactionService.startTransaction(transactionInput);
         });
 
-        final ArgumentCaptor<TransactionInput> argumentCaptorTransactionInput = ArgumentCaptor.forClass(TransactionInput.class);
+        final ArgumentCaptor<TransactionDTO> argumentCaptorTransactionDTO = ArgumentCaptor.forClass(TransactionDTO.class);
         final ArgumentCaptor<AccountBalance> argumentCaptorSaveAccountBalance = ArgumentCaptor.forClass(AccountBalance.class);
         final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
 
         verify(authorizationService, times(1))
-                .authorizeTransaction(argumentCaptorTransactionInput.capture());
+                .authorizeTransaction(argumentCaptorTransactionDTO.capture());
         verify(accountBalanceService, times(0))
                 .save(argumentCaptorSaveAccountBalance.capture());
         verify(transactionRepository, times(0))
                 .save(argumentCaptorTransaction.capture());
-        assertEquals(transactionInput, argumentCaptorTransactionInput.getValue());
+        assertEquals(transactionDTO, argumentCaptorTransactionDTO.getValue());
         assertInstanceOf(AccountNotExistsException.class, exception);
     }
 
 
     @Test
     void testShouldSaveTransaction() {
-        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google"));
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionDTO("1123", new BigDecimal(100), MEAL.name(), "Google"));
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
         this.mealTransactionService.save(transaction);
         final ArgumentCaptor<Transaction> argumentCaptorTransaction = ArgumentCaptor.forClass(Transaction.class);
@@ -136,7 +140,7 @@ class MealTransactionServiceTest {
 
     @Test
     void testShouldThrownAnExceptionWhenSaveTransaction() {
-        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionInput("1123", new BigDecimal(100), MEAL.name(), "Google"));
+        var transaction = TransactionUtil.makeTransaction(TransactionUtil.makeTransactionDTO("1123", new BigDecimal(100), MEAL.name(), "Google"));
         when(transactionRepository.save(any(Transaction.class))).thenThrow(RuntimeException.class);
 
         final var exception = assertThrows(TransactionRejectedException.class, () -> {

@@ -1,5 +1,6 @@
 package io.github.jairandersonsouza.authorizer.services;
 
+import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
 import io.github.jairandersonsouza.authorizer.entities.AccountBalance;
 import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.exceptions.TransactionRejectedException;
@@ -24,16 +25,17 @@ public abstract class TransactionService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void startTransaction(TransactionInput transactionInput) {
         try {
-            AccountBalance newAccount = getAccount(transactionInput).debitAmount(transactionInput.getTotalAmount());
+            final var transactionDTO = TransactionDTO.create(transactionInput);
+            AccountBalance newAccount = getAccount(transactionDTO).debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(newAccount);
-            save(Transaction.create(transactionInput));
+            save(Transaction.create(transactionDTO));
         } catch (TransactionRejectedException e) {
             throw new TransactionRejectedException();
         }
     }
 
-    private AccountBalance getAccount(TransactionInput transactionInput) {
-        return this.authorizationService.authorizeTransaction(transactionInput);
+    private AccountBalance getAccount(TransactionDTO transactionDTO) {
+        return this.authorizationService.authorizeTransaction(transactionDTO);
     }
 
     public abstract String getMcc();

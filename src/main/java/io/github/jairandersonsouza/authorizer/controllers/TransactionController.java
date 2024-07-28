@@ -1,5 +1,7 @@
 package io.github.jairandersonsouza.authorizer.controllers;
 
+import io.github.jairandersonsouza.authorizer.dtos.TransactionDTO;
+import io.github.jairandersonsouza.authorizer.entities.Transaction;
 import io.github.jairandersonsouza.authorizer.factories.TransactionServiceFactory;
 import io.github.jairandersonsouza.authorizer.interceptors.ResponseBuilder;
 import io.github.jairandersonsouza.authorizer.controllers.requests.TransactionInput;
@@ -25,6 +27,7 @@ public class TransactionController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseBuilder transaction(@RequestBody @Valid TransactionInput transactionInput) {
+        //tenho q criar primeiro baseado no tipo
         final var transactionService = this.transactionServiceFactory.getProcessor(transactionInput);
         transactionService.startTransaction(transactionInput);
         return ResponseBuilder.builder().code("00").build();
