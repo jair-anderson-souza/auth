@@ -16,21 +16,11 @@ public class TransactionCashDTO extends TransactionDTO {
 
     }
 
-//    public String getAccount() {
-//        return account;
-//    }
-
-//    public BigDecimal getTotalAmount() {
-//        return totalAmount;
-//    }
 
     public String getMcc() {
         return mcc;
     }
 
-//    public String getMerchant() {
-//        return merchant;
-//    }
 
     public static TransactionCashDTO create(TransactionInput transactionInput) {
         return new TransactionCashDTO(

@@ -26,9 +26,12 @@ public abstract class TransactionService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void startTransaction(TransactionInput transactionInput) {
         try {
-            final var transactionDTO = TransactionDTOFactory.createDTO(transactionInput);
-            AccountBalance newAccount = getAccount(transactionDTO).debitAmount(transactionInput.getTotalAmount());
+            //TODO - separar consulta de modificador
+            //substituir variável temporária por consulta
+            AccountBalance newAccount = getAccount(TransactionDTOFactory.createDTO(transactionInput)).debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(newAccount);
+
+            final var transactionDTO = TransactionDTOFactory.createDTO(transactionInput);
             save(Transaction.create(transactionDTO));
         } catch (TransactionRejectedException e) {
             throw new TransactionRejectedException();

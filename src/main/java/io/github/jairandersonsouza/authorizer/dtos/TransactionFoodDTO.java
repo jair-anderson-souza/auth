@@ -16,21 +16,9 @@ public class TransactionFoodDTO extends TransactionDTO {
 
     }
 
-//    public String getAccount() {
-//        return account;
-//    }
-
-//    public BigDecimal getTotalAmount() {
-//        return totalAmount;
-//    }
-
     public String getMcc() {
         return mcc;
     }
-
-//    public String getMerchant() {
-//        return merchant;
-//    }
 
     public static TransactionFoodDTO create(TransactionInput transactionInput) {
         return new TransactionFoodDTO(
