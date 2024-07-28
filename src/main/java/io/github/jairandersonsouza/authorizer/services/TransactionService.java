@@ -24,13 +24,16 @@ public abstract class TransactionService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void startTransaction(TransactionInput transactionInput) {
         try {
-            final var account = this.authorizationService.authorizeTransaction(transactionInput);
-            AccountBalance newAccount = account.debitAmount(transactionInput.getTotalAmount());
+            AccountBalance newAccount = getAccount(transactionInput).debitAmount(transactionInput.getTotalAmount());
             this.accountBalanceService.save(newAccount);
             save(Transaction.create(transactionInput));
         } catch (TransactionRejectedException e) {
             throw new TransactionRejectedException();
         }
+    }
+
+    private AccountBalance getAccount(TransactionInput transactionInput) {
+        return this.authorizationService.authorizeTransaction(transactionInput);
     }
 
     public abstract String getMcc();

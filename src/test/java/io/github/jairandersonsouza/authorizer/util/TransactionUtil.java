@@ -8,6 +8,17 @@ import java.math.BigDecimal;
 public class TransactionUtil {
 
     public static TransactionInput makeTransactionInput(String accountId, BigDecimal totalAmount, String mcc, String merchant) {
+//        if (mcc.equals("MEAL")) {
+//            return TransactionMealInput.createMeal(
+//                    accountId,
+//                    totalAmount,
+//                    merchant);
+//        } else if (mcc.equals("FOOD")) {
+//            return TransactionFoodInput.createFood(
+//                    accountId,
+//                    totalAmount,
+//                    merchant);
+//        }
         return TransactionInput.create(
                 accountId,
                 totalAmount,

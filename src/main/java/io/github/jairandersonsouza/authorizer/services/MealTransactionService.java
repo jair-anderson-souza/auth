@@ -9,7 +9,7 @@ public class MealTransactionService extends TransactionService {
 
     @Override
     public void startTransaction(TransactionInput transactionInput) {
-        super.startTransaction(TransactionInput.create(transactionInput.getAccount(), transactionInput.getTotalAmount(), getMcc(), transactionInput.getMerchant()));
+        super.startTransaction(TransactionInput.createMeal(transactionInput.getAccount(), transactionInput.getTotalAmount(), transactionInput.getMerchant()));
     }
 
     @Override
