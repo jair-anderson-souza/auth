@@ -28,7 +28,9 @@ public abstract class TransactionService {
         try {
             //TODO - separar consulta de modificador
             //substituir variável temporária por consulta
+            //consulta
             AccountBalance newAccount = getAccount(TransactionDTOFactory.createDTO(transactionInput)).debitAmount(transactionInput.getTotalAmount());
+            //modificador
             this.accountBalanceService.save(newAccount);
 
             final var transactionDTO = TransactionDTOFactory.createDTO(transactionInput);
